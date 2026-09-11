@@ -27,6 +27,12 @@ This is a word-frequency map of one text, not a fiqh ruling. Most detailed rulin
 
 Each verse has a "tafsir" button. The page first looks for a bundled pack at `tafsir/<id>/<surah>.json` (build one with `python3 tools/fetch_tafsir.py 169 16` from the repo root) and otherwise calls the quran.com v4 API live. Tafsir text remains © its publishers, served by quran.com.
 
+## Seerah — stories from the Prophet's life
+
+Every concept's panel has a "من السيرة" section: representative episodes from the life of the Prophet Muhammad ﷺ that illustrate it in practice (a haram concept is illustrated when someone commits it, or when it is explicitly forbidden). Episodes are ranked by how clearly they demonstrate the concept, each with a short summary and a "read full story" button that loads the fuller passage from a bundled pack at `seerah/packs/<batch>.json` — no live network needed.
+
+The underlying material is the Seerah as narrated primarily from Ibn Hisham, Ibn Kathir and the hadith collections; the episode summaries here are paraphrased (not quoted) from a lecture-series transcription of that material, then independently tagged against the 104 concepts by an LLM reviewing the full text section by section. Treat the summaries as a pointer into the tradition, not a substitute for reading Ibn Hisham's *al-Sīra al-Nabawiyya* or Ibn Kathir's *al-Bidāya wa'l-Nihāya* directly.
+
 ## Sources and attribution
 
 - Uthmani Quran text: The Noble Qur'an Encyclopedia (quranenc.com), packaged by [quran-json](https://www.npmjs.com/package/quran-json) v3.1.2 (CC-BY-4.0).
