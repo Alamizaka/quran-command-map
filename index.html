@@ -67,7 +67,7 @@
   .ph .opp{margin-top:8px;font-size:13px;color:var(--ink2)}
   .ph .opp button{font-family:var(--ff-ar);font-size:17px;color:var(--gold2);text-decoration:underline dotted;text-underline-offset:3px}
   .ph .opp button.h{color:var(--ember2)}
-  .verses{overflow:auto;padding:6px 22px 30px;flex:1}
+  .verses{overflow:auto;padding:6px 22px 30px;flex:1;min-height:0}
   .v{padding:16px 0;border-bottom:1px solid var(--line)}
   .v.key{background:linear-gradient(90deg,transparent,rgba(242,197,107,.06));margin:0 -22px;padding-inline:22px;border-inline-start:2px solid var(--gold)}
   .v .ref{font-family:var(--ff-mono);font-size:11px;color:var(--mute);display:flex;justify-content:space-between}
@@ -87,7 +87,7 @@
   .tafsel{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:12px;color:var(--mute);justify-content:flex-end}
   .tafsel select{background:var(--sky2);color:var(--ink);border:1px solid var(--line2);border-radius:6px;padding:4px 8px;font:inherit;font-size:12px}
   /* seerah */
-  #seerah{padding:14px 22px;border-bottom:1px solid var(--line)}
+  #seerah{padding:14px 22px;border-bottom:1px solid var(--line);max-height:36vh;overflow:auto;flex-shrink:0}
   #seerah .lbl{font-family:var(--ff-ar);font-size:16px;color:var(--gold2);direction:rtl;text-align:right}
   .h #seerah .lbl{color:var(--ember2)}
   #seerah .lbl .en{font-family:var(--ff-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);display:block;margin-top:2px}
@@ -128,6 +128,7 @@
     input[type=search]{width:130px}
     .legend,.hint{display:none}
     aside{width:100%;height:70%;top:auto;bottom:0;border-left:0;border-top:1px solid var(--line);transform:translateY(102%)}
+    #seerah{max-height:26vh}
   }
 </style>
 
