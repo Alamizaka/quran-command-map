@@ -75,6 +75,16 @@
   .v .en{font-size:14px;color:var(--ink2);line-height:1.55}
   .v mark{background:none;color:var(--gold2);font-weight:700}
   .h .v mark{color:var(--ember2)}
+  .v .tafbtn{margin-top:8px;font-size:12px;color:var(--mute);border:1px solid var(--line);border-radius:999px;padding:3px 10px}
+  .v .tafbtn:hover{color:var(--ink);border-color:var(--line2)}
+  .v .taf{margin-top:10px;padding:12px 14px;border-inline-start:2px solid var(--line2);background:rgba(255,255,255,.025);font-size:14px;line-height:1.65;color:var(--ink2)}
+  .v .taf.ar{direction:rtl;text-align:right;font-family:var(--ff-ar);font-size:19px;line-height:1.9}
+  .v .taf p{margin:0 0 .7em}
+  .v .taf h1,.v .taf h2,.v .taf h3{font-size:1em;color:var(--ink);margin:.6em 0 .3em}
+  .v .taf a{color:var(--gold2)}
+  .v .taf .src{font-family:var(--ff-mono);font-size:10.5px;color:var(--mute);margin-top:6px;direction:ltr;text-align:left}
+  .tafsel{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:12px;color:var(--mute);justify-content:flex-end}
+  .tafsel select{background:var(--sky2);color:var(--ink);border:1px solid var(--line2);border-radius:6px;padding:4px 8px;font:inherit;font-size:12px}
   /* table view */
   #table{position:absolute;inset:0;background:var(--sky);overflow:auto;display:none;padding:20px 24px}
   #table.on{display:block}
@@ -281,14 +291,37 @@ function select(n){
     <div class="meta"><span>root <b>${n.root}</b></span><span>verses <b>${n.count}</b></span><span>occurrences <b>${n.tokens}</b></span><span>${n.pol==='virtue'?'commanded / praised':'forbidden / condemned'}</span></div>
     ${n.lemmas.length?`<div class="lem">${n.lemmas.map(l=>'<span>'+l+'</span>').join('')}</div>`:''}
     ${n.note?`<div class="note">${n.note}</div>`:''}
-    ${opp?`<div class="opp">opposite: <button class="${opp.pol==='haram'?'h':''}" data-id="${opp.id}">${opp.ar}</button></div>`:''}`;
+    ${opp?`<div class="opp">opposite: <button class="${opp.pol==='haram'?'h':''}" data-id="${opp.id}">${opp.ar}</button></div>`:''}
+    <div class="tafsel"><label for="tafsel">tafsir · تفسير</label><select id="tafsel">${TAFSIRS.map(t=>`<option value="${t.id}" ${t.id===tafsirId?'selected':''}>${t.name}</option>`).join('')}</select></div>`;
+  ph.querySelector('#tafsel').onchange=e=>{tafsirId=+e.target.value; try{localStorage.setItem('tafsirId',tafsirId);}catch(_){} vs.querySelectorAll('.taf').forEach(x=>x.remove()); vs.querySelectorAll('.tafbtn').forEach(b=>{b.textContent='tafsir · تفسير';b.dataset.open='';});};
   ph.querySelector('.close').onclick=()=>{panel.classList.remove('open');selected=null;draw();};
   const ob=ph.querySelector('.opp button'); if(ob) ob.onclick=()=>select(byId[ob.dataset.id]);
   const words=n.lemmas.filter(l=>l.length>=3);
   vs.innerHTML=n.verses.map(g=>{const v=V[g]; const ref=v.s+':'+v.a; const key=ref===n.key;
-    return `<div class="v${key?' key':''}"><div class="ref"><span>${ref} · ${v.sname}</span>${key?'<span class="k">key verse</span>':''}</div><div class="ar">${v.ar}</div><div class="en">${esc(v.en)}</div></div>`;}).join('');
+    return `<div class="v${key?' key':''}"><div class="ref"><span>${ref} · ${v.sname}</span>${key?'<span class="k">key verse</span>':''}</div><div class="ar">${v.ar}</div><div class="en">${esc(v.en)}</div><button class="tafbtn" data-ref="${ref}">tafsir · تفسير</button></div>`;}).join('');
+  vs.querySelectorAll('.tafbtn').forEach(b=>b.onclick=()=>toggleTafsir(b));
   vs.scrollTop=0; const k=vs.querySelector('.key'); if(k) k.scrollIntoView({block:'start'});
   draw();
+}
+
+// ---------- tafsir (quran.com API, loaded on demand) ----------
+const TAFSIRS=[{id:169,name:'Ibn Kathir (English, abridged)',ar:false,slug:'en-tafisr-ibn-kathir'},{id:14,name:'ابن كثير (عربي)',ar:true,slug:'ar-tafsir-ibn-kathir'},{id:16,name:'الميسّر (عربي، مختصر)',ar:true,slug:'ar-tafsir-muyassar'},{id:91,name:'السعدي (عربي)',ar:true,slug:'ar-tafseer-al-saddi'},{id:15,name:'الطبري (عربي)',ar:true,slug:'ar-tafsir-al-tabari'},{id:90,name:'القرطبي (عربي)',ar:true,slug:'ar-tafseer-al-qurtubi'},{id:168,name:"Ma'arif al-Qur'an (English)",ar:false,slug:'en-tafsir-maarif-ul-quran'}];
+let tafsirId=169; try{const t=+localStorage.getItem('tafsirId'); if(TAFSIRS.some(x=>x.id===t)) tafsirId=t;}catch(_){}
+const tafCache=new Map();
+function sanitize(html){const d=document.createElement('div');d.innerHTML=html;d.querySelectorAll('script,style,iframe,object,embed,link,meta').forEach(x=>x.remove());d.querySelectorAll('*').forEach(el=>{[...el.attributes].forEach(a=>{if(/^on/i.test(a.name)||a.name==='style'||(a.name==='href'&&/^\s*javascript:/i.test(a.value))) el.removeAttribute(a.name);});});return d.innerHTML;}
+async function toggleTafsir(btn){
+  const row=btn.closest('.v'); const open=row.querySelector('.taf');
+  if(open){open.remove();btn.textContent='tafsir · تفسير';return;}
+  const ref=btn.dataset.ref; const T=TAFSIRS.find(t=>t.id===tafsirId); const [s,a]=ref.split(':');
+  const box=document.createElement('div'); box.className='taf'+(T.ar?' ar':''); box.textContent='…'; row.appendChild(box); btn.textContent='hide';
+  const key=tafsirId+'/'+ref;
+  try{
+    let html=tafCache.get(key);
+    if(!html){const r=await fetch(`https://api.quran.com/api/v4/tafsirs/${tafsirId}/by_ayah/${ref}`); if(!r.ok) throw new Error(r.status); const j=await r.json(); html=(j.tafsir&&j.tafsir.text)||''; tafCache.set(key,html);}
+    box.innerHTML=(html?sanitize(html):'<p>No entry for this verse in this tafsir (it may be covered under a neighbouring verse).</p>')+`<div class="src">${T.name} · <a href="https://quran.com/${s}/${a}/tafsirs/${T.slug}" target="_blank" rel="noopener">quran.com ↗</a></div>`;
+  }catch(e){
+    box.innerHTML=`<p>Couldn't load the tafsir here (network or browser restriction).</p><div class="src"><a href="https://quran.com/${s}/${a}/tafsirs/${T.slug}" target="_blank" rel="noopener">Open ${T.name} for ${ref} on quran.com ↗</a></div>`;
+  }
 }
 
 // ---------- table ----------
