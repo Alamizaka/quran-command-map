@@ -23,6 +23,10 @@ Sanity checks against standard concordances: ص-ب-ر 103 tokens, الزكاة 3
 
 This is a word-frequency map of one text, not a fiqh ruling. Most detailed rulings live in hadith and the legal schools, which are not included.
 
+## Tafsir
+
+Each verse has a "tafsir" button. The page first looks for a bundled pack at `tafsir/<id>/<surah>.json` (build one with `python3 tools/fetch_tafsir.py 169 16` from the repo root) and otherwise calls the quran.com v4 API live. Tafsir text remains © its publishers, served by quran.com.
+
 ## Sources and attribution
 
 - Uthmani Quran text: The Noble Qur'an Encyclopedia (quranenc.com), packaged by [quran-json](https://www.npmjs.com/package/quran-json) v3.1.2 (CC-BY-4.0).
