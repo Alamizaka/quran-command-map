@@ -226,6 +226,29 @@
   .dp-grid button.done .n::after{content:" ✓";color:var(--gold)}
   .dp-grid button.today{border-color:var(--gold);box-shadow:0 0 18px rgba(242,197,107,.25)}
   .dp-grid button.locked{opacity:.28;cursor:default}
+  .dp-scene .continue{border:1px solid var(--gold);color:var(--gold2);border-radius:999px;padding:11px 24px;font-size:15px;font-weight:600}
+  .dp.h .dp-scene .continue{border-color:var(--ember);color:var(--ember2)}
+  .dp-scene .done-note{font-family:var(--ff-mono);font-size:11px;letter-spacing:.1em;color:var(--mute);text-transform:uppercase}
+  /* ---------- story reader ---------- */
+  .reader{position:fixed;inset:0;z-index:60;background:rgba(3,5,12,.94);backdrop-filter:blur(6px);display:flex;flex-direction:column;animation:readerIn .35s ease both}
+  @keyframes readerIn{from{opacity:0}to{opacity:1}}
+  .reader .r-prog{height:3px;background:rgba(255,255,255,.08);flex-shrink:0}
+  .reader .r-prog i{display:block;height:100%;width:0;background:var(--gold2);transition:width .1s linear}
+  .reader .r-head{flex-shrink:0;display:flex;align-items:flex-start;gap:16px;padding:18px 22px 14px;border-bottom:1px solid var(--line);max-width:760px;width:100%;margin:0 auto}
+  .reader .r-head .r-t{flex:1;min-width:0}
+  .reader .r-k{font-family:var(--ff-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+  .reader h3{font-family:var(--ff-body);font-weight:600;font-size:clamp(20px,3.4vw,26px);line-height:1.3;margin:6px 0 2px;color:var(--ink)}
+  .reader .r-pg{font-family:var(--ff-mono);font-size:11px;color:var(--mute)}
+  .reader .r-x{font-size:15px;color:var(--ink);border:1px solid var(--line2);border-radius:999px;padding:7px 14px;white-space:nowrap;flex-shrink:0}
+  .reader .r-body{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;scroll-behavior:smooth}
+  .reader .r-inner{max-width:680px;margin:0 auto;padding:26px 22px 80px}
+  .reader .r-sum{font-style:italic;color:var(--ink2);border-inline-start:2px solid var(--gold);padding:4px 0 4px 14px;margin:0 0 26px;font-size:16px;line-height:1.6}
+  .reader .r-inner p{font-size:clamp(17px,2.4vw,19px);line-height:1.8;color:var(--ink);margin:0 0 1.1em;text-wrap:pretty}
+  .reader .r-end{margin-top:34px;text-align:center}
+  .reader .r-end button{border:1px solid var(--line2);border-radius:999px;padding:9px 20px;color:var(--ink);font-size:14px}
+  .reader .r-top{position:fixed;right:18px;bottom:20px;border:1px solid var(--line2);background:var(--panel);border-radius:999px;width:42px;height:42px;font-size:16px;color:var(--ink);opacity:0;pointer-events:none;transition:opacity .2s}
+  .reader .r-top.on{opacity:1;pointer-events:auto}
+  @media (max-width:720px){.reader .r-head{padding:14px 16px 12px}.reader .r-inner{padding:20px 18px 70px}}
   @media (prefers-reduced-motion:reduce){.dp .sky,.dp-scene,.dp-scene *,.daily-btn .pulse{animation:none!important}}
   @media (max-width:720px){
     .daily-btn{padding:5px 12px 5px 9px;font-size:12px}
@@ -273,6 +296,12 @@
     </aside>
     <div id="table"></div>
   </main>
+</div>
+<div id="reader" class="reader" hidden role="dialog" aria-modal="true" aria-label="Full story">
+  <div class="r-prog"><i id="rProg"></i></div>
+  <div class="r-head"><div class="r-t"><div class="r-k">From the Seerah · من السيرة</div><h3 id="rTitle"></h3><div class="r-pg" id="rPg"></div></div><button class="r-x" id="rClose">Close ✕</button></div>
+  <div class="r-body" id="rBody"><div class="r-inner" id="rInner"></div></div>
+  <button class="r-top" id="rTop" aria-label="Back to top">↑</button>
 </div>
 <div id="dpToast" class="dp-toast" hidden role="dialog" aria-label="Today's lesson"></div>
 <div id="dp" class="dp" hidden role="dialog" aria-modal="true" aria-label="Daily practice">
@@ -484,19 +513,9 @@ function renderSeerah(n){
     toggleBtn.querySelector('.lbl .en').textContent=open?`from the seerah — ${countLbl}, tap to hide`:`from the seerah — ${countLbl}, tap to show`;
   };
 }
-async function toggleStory(btn){
-  const card=btn.closest('.story'); const open=card.querySelector('.full');
-  if(open){open.remove();btn.textContent='read full story ↗';return;}
-  const sid=btn.dataset.section, bt=btn.dataset.batch;
-  const box=document.createElement('div'); box.className='full'; box.textContent='…'; card.appendChild(box); btn.textContent='hide';
-  try{
-    let pack=storyPacks.get(bt);
-    if(pack===undefined){ const r=await fetch(`seerah/packs/${bt}.json`,{cache:'force-cache'}); pack=r.ok?await r.json():null; storyPacks.set(bt,pack); }
-    const text=pack&&pack[sid];
-    box.textContent=text?text.trim():'Full text not available for this section.';
-  }catch(e){
-    box.textContent='Could not load the full story text here — this page can\'t reach outside files in this context.';
-  }
+function toggleStory(btn){
+  const card=btn.closest('.story'); const list=SEERAH[selected&&selected.id]||[]; const s=list[+card.dataset.i];
+  openReader({section:btn.dataset.section,batch:btn.dataset.batch,title:s?s.title:'',page:s?s.page:'',how:s?s.how:''});
 }
 
 // ---------- tafsir (quran.com API, loaded on demand) ----------
@@ -564,10 +583,36 @@ let dpState=null;
 function dpLoad(){try{const r=JSON.parse(localStorage.getItem(DP_KEY)||'null'); if(r&&r.start&&Array.isArray(r.done)) return r;}catch(_){} return {start:today,done:[],dismissed:''};}
 function dpSave(){try{localStorage.setItem(DP_KEY,JSON.stringify(dpState));}catch(_){}}
 dpState=dpLoad(); if(!dpState.start){dpState.start=today;} dpSave();
-function unlockedMax(){const a=new Date(dpState.start+'T00:00:00'), b=new Date(today+'T00:00:00'); const d=Math.round((b-a)/86400000); return Math.max(0,Math.min(PATH.length-1,d));}
-function currentIdx(){const max=unlockedMax(); for(let i=0;i<=max;i++) if(!dpState.done.includes(PATH[i].id)) return i; return max;}
-function todayDone(){const i=currentIdx(); return dpState.done.includes(PATH[i].id);}
+function firstUndone(){for(let i=0;i<PATH.length;i++) if(!dpState.done.includes(PATH[i].id)) return i; return PATH.length-1;}
+function unlockedMax(){const a=new Date(dpState.start+'T00:00:00'), b=new Date(today+'T00:00:00'); const d=Math.round((b-a)/86400000); return Math.max(0,Math.min(PATH.length-1,Math.max(d,firstUndone())));}
+function currentIdx(){return firstUndone();}
+function todayDone(){return Object.values(dpState.log||{}).includes(today);}
+function markDone(id){if(!dpState.done.includes(id)) dpState.done.push(id); dpState.log=dpState.log||{}; if(!dpState.log[id]) dpState.log[id]=today; dpSave();}
 function storiesFor(n){const seen=new Set(),out=[]; (SEERAH[n.id]||[]).forEach(s=>{const k=s.how.slice(0,80); if(!seen.has(k)&&!seen.has('t'+s.title)){seen.add(k);seen.add('t'+s.title);out.push(s);}}); return out.slice(0,3);}
+const reader=document.getElementById('reader'), rBody=document.getElementById('rBody'), rInner=document.getElementById('rInner'), rProg=document.getElementById('rProg'), rTop=document.getElementById('rTop');
+function reflow(t){
+  t=t.replace(/[‪-‮‎‏]/g,'').replace(/\r/g,'');
+  return t.split(/\n\s*\n+/).map(p=>p.replace(/-\n(?=[a-z])/g,'').replace(/\s*\n\s*/g,' ').replace(/\s{2,}/g,' ').trim()).filter(p=>p.length>1).reduce((acc,p)=>{const last=acc[acc.length-1]; if(last&&!/[.?!"”’:)\]]$/.test(last)) acc[acc.length-1]=last+' '+p; else acc.push(p); return acc;},[]);
+}
+async function openReader(o){
+  document.getElementById('rTitle').textContent=o.title||'';
+  document.getElementById('rPg').textContent=o.page?('p.'+o.page+' · full passage'):'';
+  rInner.innerHTML='<p style="color:var(--mute)">Loading…</p>'; reader.hidden=false; rBody.scrollTop=0; rProg.style.width='0';
+  let t=await loadStoryText(o.section,o.batch);
+  if(t&&o.title){const norm=x=>x.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ');
+    const key=norm(o.title).trim().split(' ').slice(0,4).join(' '); const lines=t.split('\n'); const hit=lines.findIndex((l,i)=>i>0&&norm(l).trim().startsWith(key)&&l.trim().length<o.title.length+25);
+    if(hit>0&&hit<lines.length*0.6) t=lines.slice(hit+1).join('\n');}
+  const paras=t?reflow(t):[];
+  rInner.innerHTML=(o.how?`<div class="r-sum">${esc(o.how)}</div>`:'')+
+    (paras.length?paras.map(p=>`<p>${esc(p)}</p>`).join(''):'<p>The full text could not be loaded here.</p>')+
+    `<div class="r-end"><button id="rDone">Done reading — back</button></div>`;
+  document.getElementById('rDone').onclick=closeReader;
+  rBody.focus&&rBody.setAttribute('tabindex','-1'); rBody.focus({preventScroll:true});
+}
+function closeReader(){reader.hidden=true;}
+document.getElementById('rClose').onclick=closeReader;
+rTop.onclick=()=>{rBody.scrollTop=0;};
+rBody.addEventListener('scroll',()=>{const m=rBody.scrollHeight-rBody.clientHeight; rProg.style.width=(m>0?100*rBody.scrollTop/m:100)+'%'; rTop.classList.toggle('on',rBody.scrollTop>600);},{passive:true});
 async function loadStoryText(section,batch){let pack=storyPacks.get(batch); if(pack===undefined){try{const r=await fetch(`seerah/packs/${batch}.json`,{cache:'force-cache'}); pack=r.ok?await r.json():null;}catch(_){pack=null;} storyPacks.set(batch,pack);} return pack&&pack[section];}
 
 const dp=document.getElementById('dp'), dpStage=document.getElementById('dpStage'), dpBars=document.getElementById('dpBars');
@@ -588,12 +633,13 @@ function buildScenes(n,idx){
   if(v) sc.push(()=>`<div class="dp-scene"><div class="kick">The verse · الآية</div><div class="ayah">${v.ar}</div><div class="tr">${esc(v.en)}</div><div class="ref">${v.s}:${v.a} · ${esc(v.sname)}</div></div>`);
   const st=storiesFor(n);
   st.forEach((s,i)=>sc.push(()=>`<div class="dp-scene"><div class="kick">From the Seerah · من السيرة — story ${i+1} of ${st.length}</div><h2>${esc(s.title)}</h2><div class="pg">p.${s.page}</div>
-    <div class="story-body">${esc(s.how)}</div><button class="full-btn" data-section="${s.section}" data-batch="${s.batch}">Read the full story ↓</button></div>`));
+    <div class="story-body">${esc(s.how)}</div><button class="full-btn" data-section="${s.section}" data-batch="${s.batch}" data-title="${esc(s.title).replace(/"/g,'&quot;')}" data-page="${s.page}">Read the full story →</button></div>`));
   if(!st.length) sc.push(()=>`<div class="dp-scene"><div class="kick">From the Seerah · من السيرة</div><h2>No episode in the book singles this one out.</h2><div class="story-body" style="text-align:center">The text of the Quran carries it alone today. Read the verses slowly — they are the lesson.</div></div>`);
   sc.push(()=>{const done=dpState.done.includes(n.id); const opp=n.opposite&&byId[n.opposite];
     return `<div class="dp-scene"><div class="kick">Carry it today · خذها معك</div><div class="word" style="font-size:clamp(40px,9vw,72px)">${n.ar}</div>
     <div class="prompt">${reflectFor(n)}</div>
-    <div class="actions"><button class="complete" id="dpDone" ${done?'disabled':''}>${done?'✓ Day '+(idx+1)+' complete':'Mark day '+(idx+1)+' complete'}</button>
+    <div class="actions">${done?`<div class="done-note">✓ Day ${idx+1} complete</div>`:`<button class="complete" id="dpDone">Mark day ${idx+1} complete</button>`}
+    ${done&&idx<PATH.length-1?`<button class="continue" id="dpCont">Continue to day ${idx+2} · ${PATH[idx+1].ar} →</button>`:''}
     <button class="link" id="dpMap">Read all ${n.count} verses in the map</button>
     ${opp?`<button class="link" id="dpOpp">Its opposite: ${opp.ar} · ${esc(opp.en)}</button>`:''}</div></div>`;});
   return sc;
@@ -605,19 +651,18 @@ function dpRender(){
   document.getElementById('dpDayLbl').textContent=`Day ${dpIdx+1} / ${PATH.length}`;
   dpStage.innerHTML=dpScenes[dpScene](); dpStage.scrollTop=0;
   document.getElementById('dpPrev').disabled=dpScene===0;
-  const last=dpScene===dpScenes.length-1; const nx=document.getElementById('dpNext'); nx.textContent=last?'The path ▦':'Next →'; nx.disabled=false;
-  const fb=dpStage.querySelector('.full-btn'); if(fb) fb.onclick=async()=>{const open=dpStage.querySelector('.full'); if(open){open.remove();fb.textContent='Read the full story ↓';return;}
-    const box=document.createElement('div'); box.className='full'; box.textContent='…'; fb.after(box); fb.textContent='Hide full story ↑';
-    const t=await loadStoryText(fb.dataset.section,fb.dataset.batch); box.textContent=t?t.trim():'The full text could not be loaded here.'; box.scrollIntoView({block:'nearest',behavior:'smooth'});};
-  const db=document.getElementById('dpDone'); if(db) db.onclick=()=>{if(!dpState.done.includes(n.id)) dpState.done.push(n.id); dpSave(); syncDailyBtn(); dpScenes=buildScenes(n,dpIdx); dpRender();};
+  const last=dpScene===dpScenes.length-1; const nx=document.getElementById('dpNext'); nx.textContent=last?(dpState.done.includes(n.id)&&dpIdx<PATH.length-1?'Next day →':'The path ▦'):'Next →'; nx.disabled=false;
+  const fb=dpStage.querySelector('.full-btn'); if(fb) fb.onclick=()=>openReader({section:fb.dataset.section,batch:fb.dataset.batch,title:fb.dataset.title,page:fb.dataset.page,how:''});
+  const db=document.getElementById('dpDone'); if(db) db.onclick=()=>{markDone(n.id); syncDailyBtn(); dpScenes=buildScenes(n,dpIdx); dpRender();};
+  const cb=document.getElementById('dpCont'); if(cb) cb.onclick=()=>dpOpen(dpIdx+1);
   const mb=document.getElementById('dpMap'); if(mb) mb.onclick=()=>{dpClose(); setView('map'); select(n);};
   const ob=document.getElementById('dpOpp'); if(ob) ob.onclick=()=>{dpClose(); setView('map'); select(byId[n.opposite]);};
 }
 function renderPath(){
   dp.classList.remove('h'); dpBars.innerHTML=''; const max=unlockedMax(), cur=currentIdx();
   document.getElementById('dpDayLbl').textContent=`${dpState.done.length} / ${PATH.length} complete`;
-  dpStage.innerHTML=`<div class="dp-path"><h2>الطريق</h2><div class="sub">One concept a day — ${PATH.length} days from faith to the forbidden. A new day unlocks each morning.</div>
-    <div class="stat">started ${dpState.start} · ${dpState.done.length} learned · ${Math.max(0,max+1-dpState.done.length)} waiting</div>
+  dpStage.innerHTML=`<div class="dp-path"><h2>الطريق</h2><div class="sub">One concept a day — ${PATH.length} days from faith to the forbidden. A new one unlocks each morning — or finish today's to go straight to the next.</div>
+    <div class="stat">started ${dpState.start} · ${dpState.done.length} learned · ${dpState.done.length>=PATH.length?'path complete':'next up: day '+(currentIdx()+1)}</div>
     <div class="dp-grid">${PATH.map((n,i)=>{const cls=[n.pol==='virtue'?'v':'hh']; if(dpState.done.includes(n.id)) cls.push('done'); if(i===cur) cls.push('today'); if(i>max) cls.push('locked');
       return `<button class="${cls.join(' ')}" data-i="${i}" ${i>max?'disabled title="Unlocks on day '+(i+1)+'"':''}><span class="n">${i+1}</span><span class="w">${i>max?'·':n.ar}</span></button>`;}).join('')}</div></div>`;
   dpStage.querySelectorAll('.dp-grid button:not([disabled])').forEach(b=>b.onclick=()=>dpOpen(+b.dataset.i));
@@ -625,12 +670,12 @@ function renderPath(){
 }
 function dpOpen(i){ dpMode='lesson'; dpIdx=(i===undefined?currentIdx():i); dpScene=0; dpScenes=buildScenes(PATH[dpIdx],dpIdx); dp.hidden=false; hideToast(); dpRender(); }
 function dpClose(){ dp.hidden=true; }
-function dpNext(){ if(dpMode==='path'){dpOpen();return;} if(dpScene<dpScenes.length-1){dpScene++;dpRender();} else {dpMode='path';dpRender();} }
+function dpNext(){ if(dpMode==='path'){dpOpen();return;} if(dpScene<dpScenes.length-1){dpScene++;dpRender();} else if(dpState.done.includes(PATH[dpIdx].id)&&dpIdx<PATH.length-1){dpOpen(dpIdx+1);} else {dpMode='path';dpRender();} }
 function dpPrev(){ if(dpMode==='lesson'&&dpScene>0){dpScene--;dpRender();} }
 document.getElementById('dpNext').onclick=dpNext; document.getElementById('dpPrev').onclick=dpPrev;
 document.getElementById('dpClose').onclick=dpClose;
 document.getElementById('dpPathBtn').onclick=()=>{dpMode='path';dp.hidden=false;dpRender();};
-document.addEventListener('keydown',e=>{ if(dp.hidden) return; if(e.key==='Escape') dpClose(); else if(e.key==='ArrowRight') dpNext(); else if(e.key==='ArrowLeft') dpPrev(); });
+document.addEventListener('keydown',e=>{ if(!reader.hidden){ if(e.key==='Escape') closeReader(); return; } if(dp.hidden) return; if(e.key==='Escape') dpClose(); else if(e.key==='ArrowRight') dpNext(); else if(e.key==='ArrowLeft') dpPrev(); });
 let tx=null; dpStage.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
 dpStage.addEventListener('touchend',e=>{if(tx===null) return; const dx=e.changedTouches[0].clientX-tx; tx=null; if(Math.abs(dx)>60){dx<0?dpNext():dpPrev();}},{passive:true});
 function syncDailyBtn(){const b=document.getElementById('dailyBtn'); b.classList.toggle('done',todayDone()); document.getElementById('dailyDay').textContent=' · Day '+(currentIdx()+1);}
