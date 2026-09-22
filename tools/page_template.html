@@ -59,7 +59,7 @@
   .ph .opp{margin-top:8px;font-size:13px;color:var(--ink2)}
   .ph .opp button{font-family:var(--ff-ar);font-size:17px;color:var(--gold2);text-decoration:underline dotted;text-underline-offset:3px}
   .ph .opp button.h{color:var(--ember2)}
-  .verses{overflow:auto;padding:6px 22px 30px;flex:1}
+  .verses{overflow:auto;padding:6px 22px 30px;flex:1;min-height:0}
   .v{padding:16px 0;border-bottom:1px solid var(--line)}
   .v.key{background:linear-gradient(90deg,transparent,rgba(242,197,107,.06));margin:0 -22px;padding-inline:22px;border-inline-start:2px solid var(--gold)}
   .v .ref{font-family:var(--ff-mono);font-size:11px;color:var(--mute);display:flex;justify-content:space-between}
@@ -78,6 +78,34 @@
   .v .taf .src{font-family:var(--ff-mono);font-size:10.5px;color:var(--mute);margin-top:6px;direction:ltr;text-align:left}
   .tafsel{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:12px;color:var(--mute);justify-content:flex-end}
   .tafsel select{background:var(--sky2);color:var(--ink);border:1px solid var(--line2);border-radius:6px;padding:4px 8px;font:inherit;font-size:12px}
+  /* seerah */
+  #seerah{padding:14px 22px;border-bottom:1px solid var(--line);flex-shrink:0}
+  #seerah .lbl-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;gap:10px;text-align:right}
+  #seerah .lbl{font-family:var(--ff-ar);font-size:16px;color:var(--gold2);direction:rtl;text-align:right}
+  .h #seerah .lbl{color:var(--ember2)}
+  #seerah .lbl .en{font-family:var(--ff-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);display:block;margin-top:2px}
+  #seerah .chev{color:var(--mute);font-size:11px;transition:transform .2s ease;flex-shrink:0}
+  #seerah .lbl-toggle[aria-expanded="true"] .chev{transform:rotate(180deg)}
+  #seerah .lbl-toggle:hover .chev{color:var(--ink)}
+  .seerah-body{max-height:0;overflow:hidden}
+  .seerah-body.open{max-height:30vh;overflow:auto;margin-top:10px;padding-inline-end:2px}
+  @media (max-width:720px){.seerah-body.open{max-height:22vh}}
+  .story{margin-top:12px;padding:10px 12px;border-inline-start:2px solid var(--line2);background:rgba(255,255,255,.02)}
+  .story .st-h{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+  .story .st-title{font-size:13px;color:var(--ink);font-weight:600}
+  .story .st-pg{font-family:var(--ff-mono);font-size:10.5px;color:var(--mute);white-space:nowrap}
+  .story .st-how{font-size:13.5px;color:var(--ink2);line-height:1.55;margin-top:4px}
+  .story .strn{display:inline-flex;gap:2px;margin-inline-end:6px;vertical-align:1px}
+  .story .strn i{width:5px;height:5px;border-radius:50%;background:var(--line2);display:inline-block}
+  .story .strn i.on{background:var(--gold)}
+  .h .story .strn i.on{background:var(--ember)}
+  .story .storybtn{margin-top:8px;font-size:11.5px;color:var(--mute);border:1px solid var(--line);border-radius:999px;padding:2px 9px}
+  .story .storybtn:hover{color:var(--ink);border-color:var(--line2)}
+  .story .full{margin-top:9px;padding:10px 12px;background:rgba(255,255,255,.025);font-size:13px;line-height:1.65;color:var(--ink2);white-space:pre-wrap;max-height:340px;overflow:auto}
+  #seerah .more{margin-top:10px;font-size:12px;color:var(--mute);border:1px dashed var(--line2);border-radius:999px;padding:4px 12px;display:block}
+  #seerah .more:hover{color:var(--ink)}
+  #seerah .empty{font-size:13px;color:var(--mute);font-style:italic;margin-top:10px}
+  #seerah .src{font-family:var(--ff-mono);font-size:10px;color:var(--mute);margin-top:12px;line-height:1.6}
   /* table view */
   #table{position:absolute;inset:0;background:var(--sky);overflow:auto;display:none;padding:20px 24px}
   #table.on{display:block}
@@ -98,7 +126,115 @@
     .title .ar{font-size:22px}
     input[type=search]{width:130px}
     .legend,.hint{display:none}
-    aside{width:100%;height:70%;top:auto;bottom:0;border-left:0;border-top:1px solid var(--line);transform:translateY(102%)}
+    aside{width:100%;height:92vh;top:auto;bottom:0;border-left:0;border-top:1px solid var(--line);border-radius:16px 16px 0 0;transform:translateY(102%)}
+    aside::before{content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);width:36px;height:4px;border-radius:99px;background:var(--line2)}
+    .ph{padding:20px 16px 10px}
+    .ph .close{top:10px;left:8px;font-size:20px}
+    .ph .ar{font-size:24px}
+    .ph .en{font-size:12px}
+    .ph .meta{gap:8px 12px;margin-top:8px;font-size:10.5px}
+    .ph .lem{font-size:14px}
+    .ph .note{font-size:12px}
+    .tafsel{margin-top:8px}
+    .tafsel select{font-size:11px;padding:3px 6px}
+    #seerah{padding:10px 16px}
+    #seerah .lbl{font-size:14px}
+    .story{padding:8px 10px}
+    .story .st-how{font-size:13px}
+    .verses{padding:4px 16px 24px}
+    .v{padding:12px 0}
+    .v .ar{font-size:19px;line-height:1.7}
+    .v .en{font-size:13.5px}
+  }
+
+  /* ---------- daily practice ---------- */
+  [hidden]{display:none!important}
+  .daily-btn{display:flex;align-items:center;gap:8px;padding:6px 14px 6px 10px;border:1px solid var(--gold);border-radius:999px;color:var(--gold2);font-size:13px;background:linear-gradient(90deg,rgba(242,197,107,.12),transparent)}
+  .daily-btn .ar{font-family:var(--ff-ar);font-size:16px;line-height:1}
+  .daily-btn .pulse{width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 0 rgba(242,197,107,.6);animation:pulse 2s infinite}
+  .daily-btn.done .pulse{animation:none;background:var(--mute)}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(242,197,107,.55)}70%{box-shadow:0 0 0 9px rgba(242,197,107,0)}100%{box-shadow:0 0 0 0 rgba(242,197,107,0)}}
+  .dp-toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:40;background:var(--panel);border:1px solid var(--line2);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:14px;box-shadow:0 20px 60px rgba(0,0,0,.6);max-width:calc(100% - 32px);animation:toastIn .5s ease both}
+  @keyframes toastIn{from{opacity:0;transform:translate(-50%,20px)}to{opacity:1;transform:translate(-50%,0)}}
+  .dp-toast .t-k{font-family:var(--ff-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+  .dp-toast .t-w{font-family:var(--ff-ar);font-size:24px;color:var(--gold2);line-height:1.2}
+  .dp-toast.h .t-w{color:var(--ember2)}
+  .dp-toast .t-e{font-size:13px;color:var(--ink2)}
+  .dp-toast .go{background:var(--gold);color:#1a1405;border-radius:999px;padding:8px 16px;font-weight:600;font-size:13px;white-space:nowrap}
+  .dp-toast .x{color:var(--mute);font-size:18px;padding:4px}
+  .dp{position:fixed;inset:0;z-index:50;background:#05070F;color:var(--ink);overflow:hidden;display:flex;flex-direction:column}
+  .dp .sky{position:absolute;inset:-20%;pointer-events:none;background-image:radial-gradient(1px 1px at 10% 20%,#fff8,transparent),radial-gradient(1px 1px at 30% 70%,#fff6,transparent),radial-gradient(1.5px 1.5px at 55% 35%,#fff9,transparent),radial-gradient(1px 1px at 75% 80%,#fff5,transparent),radial-gradient(1px 1px at 88% 15%,#fff7,transparent),radial-gradient(1px 1px at 20% 90%,#fff5,transparent),radial-gradient(1.5px 1.5px at 65% 60%,#fff6,transparent),radial-gradient(1px 1px at 42% 8%,#fff6,transparent);background-size:340px 340px;animation:drift 90s linear infinite;opacity:.8}
+  @keyframes drift{from{transform:translate(0,0)}to{transform:translate(-340px,-170px)}}
+  .dp .glow{position:absolute;left:50%;top:42%;width:900px;height:900px;max-width:180vw;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(242,197,107,.16),transparent 60%);pointer-events:none;transition:background .8s}
+  .dp.h .glow{background:radial-gradient(circle,rgba(228,85,61,.17),transparent 60%)}
+  .dp-top{position:relative;z-index:2;padding:14px 18px 0}
+  .dp-bars{display:flex;gap:5px}
+  .dp-bars i{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.14);overflow:hidden;position:relative}
+  .dp-bars i.on::after{content:"";position:absolute;inset:0;background:var(--gold2)}
+  .dp.h .dp-bars i.on::after{background:var(--ember2)}
+  .dp-meta{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-family:var(--ff-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2)}
+  .dp-meta button{color:var(--ink2);font:inherit;letter-spacing:inherit;padding:4px 6px}
+  .dp-meta button:hover{color:var(--ink)}
+  .dp-meta .dp-close{font-size:22px;letter-spacing:0;line-height:1}
+  .dp-stage{position:relative;z-index:2;flex:1;min-height:0;overflow:auto;display:flex;align-items:center;justify-content:center;padding:24px 22px}
+  .dp-scene{width:100%;max-width:680px;margin:auto;animation:sceneIn .7s cubic-bezier(.2,.7,.2,1) both}
+  @keyframes sceneIn{from{opacity:0;transform:translateY(18px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+  .dp-scene .kick{font-family:var(--ff-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);text-align:center}
+  .dp-scene .word{font-family:var(--ff-ar);font-weight:700;font-size:clamp(56px,13vw,120px);line-height:1.25;text-align:center;color:var(--gold2);margin:18px 0 6px;text-shadow:0 0 40px rgba(242,197,107,.35);animation:wordIn 1.6s cubic-bezier(.2,.7,.2,1) both}
+  .dp.h .dp-scene .word{color:var(--ember2);text-shadow:0 0 40px rgba(228,85,61,.35)}
+  @keyframes wordIn{from{opacity:0;letter-spacing:.15em;filter:blur(14px)}to{opacity:1;letter-spacing:0;filter:none}}
+  .dp-scene .gloss{text-align:center;font-size:clamp(18px,3.4vw,24px);color:var(--ink);font-style:italic;animation:sceneIn .8s .6s both}
+  .dp-scene .verdict{display:flex;justify-content:center;margin-top:18px;animation:sceneIn .8s .9s both}
+  .dp-scene .verdict span{border:1px solid var(--gold);color:var(--gold2);border-radius:999px;padding:5px 14px;font-size:13px}
+  .dp.h .dp-scene .verdict span{border-color:var(--ember);color:var(--ember2)}
+  .dp-scene .facts{display:flex;justify-content:center;gap:22px;flex-wrap:wrap;margin-top:22px;font-family:var(--ff-mono);font-size:12px;color:var(--ink2);animation:sceneIn .8s 1.1s both}
+  .dp-scene .facts b{color:var(--ink);font-weight:500;font-size:15px;display:block;text-align:center}
+  .dp-scene .note{margin:22px auto 0;max-width:520px;text-align:center;font-size:13.5px;font-style:italic;color:var(--ink2);animation:sceneIn .8s 1.3s both}
+  .dp-scene .ayah{font-family:var(--ff-ar);font-size:clamp(24px,4.6vw,36px);line-height:1.9;direction:rtl;text-align:center;margin:22px 0 18px}
+  .dp-scene .tr{font-size:clamp(16px,2.6vw,19px);line-height:1.6;text-align:center;color:var(--ink);animation:sceneIn .8s .5s both}
+  .dp-scene .ref{text-align:center;font-family:var(--ff-mono);font-size:12px;color:var(--mute);margin-top:16px}
+  .dp-scene h2{font-family:var(--ff-body);font-weight:600;font-size:clamp(22px,4vw,30px);line-height:1.25;text-align:center;margin:14px 0 6px;color:var(--ink)}
+  .dp-scene .pg{text-align:center;font-family:var(--ff-mono);font-size:11px;color:var(--mute)}
+  .dp-scene .story-body{font-size:clamp(16px,2.5vw,18.5px);line-height:1.7;color:var(--ink);margin-top:22px;animation:sceneIn .8s .4s both}
+  .dp-scene .story-body::first-letter{font-size:2.4em;float:left;line-height:.9;margin:6px 8px 0 0;color:var(--gold2);font-weight:600}
+  .dp.h .dp-scene .story-body::first-letter{color:var(--ember2)}
+  .dp-scene .full-btn{display:block;margin:22px auto 0;border:1px solid var(--line2);border-radius:999px;padding:6px 16px;font-size:13px;color:var(--ink2)}
+  .dp-scene .full-btn:hover{color:var(--ink);border-color:var(--ink2)}
+  .dp-scene .full{margin-top:16px;padding:16px 18px;background:rgba(255,255,255,.035);border-inline-start:2px solid var(--line2);font-size:14px;line-height:1.7;color:var(--ink2);white-space:pre-wrap;max-height:42vh;overflow:auto}
+  .dp-scene .prompt{font-size:clamp(20px,3.6vw,26px);line-height:1.5;text-align:center;color:var(--ink);font-style:italic;margin:20px auto 0;max-width:560px}
+  .dp-scene .actions{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:30px}
+  .dp-scene .complete{background:var(--gold);color:#1a1405;border-radius:999px;padding:12px 26px;font-weight:600;font-size:15px}
+  .dp.h .dp-scene .complete{background:var(--ember);color:#fff}
+  .dp-scene .complete[disabled]{background:none;border:1px solid var(--line2);color:var(--ink2);cursor:default}
+  .dp-scene .link{font-size:13px;color:var(--ink2);text-decoration:underline dotted;text-underline-offset:3px}
+  .dp-nav{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:12px 18px 18px}
+  .dp-nav button{border:1px solid var(--line2);border-radius:999px;padding:9px 18px;font-size:14px;color:var(--ink)}
+  .dp-nav button[disabled]{opacity:.3;cursor:default}
+  .dp-nav .next{background:rgba(255,255,255,.06)}
+  .dp-nav .hint2{font-family:var(--ff-mono);font-size:10.5px;color:var(--mute);letter-spacing:.1em}
+  .dp-path{width:100%;max-width:760px;margin:auto;animation:sceneIn .6s both}
+  .dp-path h2{text-align:center;font-family:var(--ff-ar);font-size:34px;color:var(--gold2);margin:0}
+  .dp-path .sub{text-align:center;color:var(--ink2);font-size:14px;margin:6px 0 20px}
+  .dp-path .stat{text-align:center;font-family:var(--ff-mono);font-size:12px;color:var(--ink2);margin-bottom:18px}
+  .dp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px}
+  .dp-grid button{border:1px solid var(--line);border-radius:10px;padding:8px 4px 6px;text-align:center;background:rgba(255,255,255,.02);min-height:58px}
+  .dp-grid button .n{display:block;font-family:var(--ff-mono);font-size:10px;color:var(--mute)}
+  .dp-grid button .w{display:block;font-family:var(--ff-ar);font-size:14px;line-height:1.3;color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .dp-grid button.v .w{color:var(--gold2)}
+  .dp-grid button.hh .w{color:var(--ember2)}
+  .dp-grid button.done{border-color:var(--line2);background:rgba(242,197,107,.07)}
+  .dp-grid button.done .n::after{content:" ✓";color:var(--gold)}
+  .dp-grid button.today{border-color:var(--gold);box-shadow:0 0 18px rgba(242,197,107,.25)}
+  .dp-grid button.locked{opacity:.28;cursor:default}
+  @media (prefers-reduced-motion:reduce){.dp .sky,.dp-scene,.dp-scene *,.daily-btn .pulse{animation:none!important}}
+  @media (max-width:720px){
+    .daily-btn{padding:5px 12px 5px 9px;font-size:12px}
+    .daily-btn .lbl-en{display:none}
+    .dp-stage{padding:16px 18px;align-items:flex-start}
+    .dp-scene .facts{gap:14px}
+    .dp-toast{bottom:14px;gap:10px;padding:12px}
+    .dp-toast .t-w{font-size:20px}
+    .dp-nav .hint2{display:none}
   }
 </style>
 
@@ -113,6 +249,7 @@
       </div>
       <div class="chips" id="chips"></div>
       <input type="search" id="q" placeholder="search  ·  بحث" aria-label="Search concepts">
+      <button id="dailyBtn" class="daily-btn" title="Daily practice"><span class="pulse"></span><span class="ar">الورد اليومي</span><span class="lbl-en">· Daily practice</span><b id="dailyDay" style="font-weight:500"></b></button>
       <div class="seg" role="group" aria-label="View">
         <button id="vMap" aria-pressed="true">Map</button>
         <button id="vTable" aria-pressed="false">Table</button>
@@ -131,10 +268,19 @@
     <div class="hint">click a star for every verse · drag to move · scroll to zoom</div>
     <aside id="panel" aria-live="polite">
       <div class="ph" id="ph"></div>
+      <div id="seerah"></div>
       <div class="verses" id="verses"></div>
     </aside>
     <div id="table"></div>
   </main>
+</div>
+<div id="dpToast" class="dp-toast" hidden role="dialog" aria-label="Today's lesson"></div>
+<div id="dp" class="dp" hidden role="dialog" aria-modal="true" aria-label="Daily practice">
+  <div class="sky"></div><div class="glow"></div>
+  <div class="dp-top"><div class="dp-bars" id="dpBars"></div>
+    <div class="dp-meta"><button id="dpPathBtn">▦ The path</button><span id="dpDayLbl"></span><button class="dp-close" id="dpClose" aria-label="Close">×</button></div></div>
+  <div class="dp-stage" id="dpStage"></div>
+  <div class="dp-nav"><button class="prev" id="dpPrev">← Back</button><span class="hint2">← → keys · esc to close</span><button class="next" id="dpNext">Next →</button></div>
 </div>
 
 <script id="data" type="application/json">__DATA__</script>
@@ -285,10 +431,11 @@ function select(n){
     ${n.lemmas.length?`<div class="lem">${n.lemmas.map(l=>'<span>'+l+'</span>').join('')}</div>`:''}
     ${n.note?`<div class="note">${n.note}</div>`:''}
     ${opp?`<div class="opp">opposite: <button class="${opp.pol==='haram'?'h':''}" data-id="${opp.id}">${opp.ar}</button></div>`:''}
-    <div class="tafsel"><label for="tafsel">tafsir · تفسير</label><select id="tafsel">${TAFSIRS.map(t=>`<option value="${t.id}" ${t.id===tafsirId?'selected':''}>${t.name}</option>`).join('')}</select></div>`;
+    <div class="tafsel"><label for="tafsel">tafsir · تفسير</label><select id="tafsel">${tafOptions()}</select></div>`;
   ph.querySelector('#tafsel').onchange=e=>{tafsirId=+e.target.value; try{localStorage.setItem('tafsirId',tafsirId);}catch(_){} vs.querySelectorAll('.taf').forEach(x=>x.remove()); vs.querySelectorAll('.tafbtn').forEach(b=>{b.textContent='tafsir · تفسير';b.dataset.open='';});};
   ph.querySelector('.close').onclick=()=>{panel.classList.remove('open');selected=null;draw();};
   const ob=ph.querySelector('.opp button'); if(ob) ob.onclick=()=>select(byId[ob.dataset.id]);
+  renderSeerah(n);
   const words=n.lemmas.filter(l=>l.length>=3);
   vs.innerHTML=n.verses.map(g=>{const v=V[g]; const ref=v.s+':'+v.a; const key=ref===n.key;
     return `<div class="v${key?' key':''}"><div class="ref"><span>${ref} · ${v.sname}</span>${key?'<span class="k">key verse</span>':''}</div><div class="ar">${v.ar}</div><div class="en">${esc(v.en)}</div><button class="tafbtn" data-ref="${ref}">tafsir · تفسير</button></div>`;}).join('');
@@ -297,8 +444,66 @@ function select(n){
   draw();
 }
 
+// ---------- seerah: episodes from the Prophet's life illustrating this concept ----------
+const SEERAH=(D.seerah&&D.seerah.by_concept)||{};
+const storyPacks=new Map();
+const SEERAH_STEP=4;
+function storyItem(s,i,n){
+  const strn=[1,2,3].map(k=>`<i class="${k<=s.strength?'on':''}"></i>`).join('');
+  return `<div class="story" data-i="${i}"><div class="st-h"><span class="st-title">${esc(s.title)}</span><span class="st-pg">p.${s.page}</span></div>
+    <div class="st-how"><span class="strn">${strn}</span>${esc(s.how)}</div>
+    <button class="storybtn" data-section="${s.section}" data-batch="${s.batch}">read full story ↗</button></div>`;
+}
+function renderSeerah(n){
+  const box=document.getElementById('seerah');
+  const list=SEERAH[n.id]||[];
+  if(!list.length){
+    box.innerHTML=`<div class="lbl"><span class="en">from the seerah</span>من السيرة</div><div class="empty">No representative episode tagged for this concept yet.</div>`;
+    return;
+  }
+  box.dataset.shown=Math.min(SEERAH_STEP,list.length);
+  const countLbl=`${list.length} episode${list.length>1?'s':''}`;
+  box.innerHTML=`<button class="lbl-toggle" aria-expanded="false">
+      <span class="lbl"><span class="en">from the seerah — ${countLbl}, tap to show</span>من السيرة</span>
+      <span class="chev">▾</span>
+    </button>
+    <div class="seerah-body"></div>`;
+  const toggleBtn=box.querySelector('.lbl-toggle'), body=box.querySelector('.seerah-body');
+  const drawBody=()=>{
+    const shown=+box.dataset.shown;
+    body.innerHTML=list.slice(0,shown).map((s,i)=>storyItem(s,i,n)).join('')
+      + (shown<list.length?`<button class="more">show ${Math.min(SEERAH_STEP,list.length-shown)} more</button>`:'')
+      + `<div class="src">Seerah of Prophet Muhammad ﷺ, narrated from Ibn Hisham, Ibn Kathir and the hadith collections. Episode summaries paraphrased from a lecture-series transcription of that material.</div>`;
+    const mb=body.querySelector('.more'); if(mb) mb.onclick=(e)=>{e.stopPropagation();box.dataset.shown=Math.min(list.length,shown+SEERAH_STEP);drawBody();};
+    body.querySelectorAll('.storybtn').forEach(b=>b.onclick=(e)=>{e.stopPropagation();toggleStory(b);});
+  };
+  drawBody();
+  toggleBtn.onclick=()=>{
+    const open=body.classList.toggle('open');
+    toggleBtn.setAttribute('aria-expanded',open?'true':'false');
+    toggleBtn.querySelector('.lbl .en').textContent=open?`from the seerah — ${countLbl}, tap to hide`:`from the seerah — ${countLbl}, tap to show`;
+  };
+}
+async function toggleStory(btn){
+  const card=btn.closest('.story'); const open=card.querySelector('.full');
+  if(open){open.remove();btn.textContent='read full story ↗';return;}
+  const sid=btn.dataset.section, bt=btn.dataset.batch;
+  const box=document.createElement('div'); box.className='full'; box.textContent='…'; card.appendChild(box); btn.textContent='hide';
+  try{
+    let pack=storyPacks.get(bt);
+    if(pack===undefined){ const r=await fetch(`seerah/packs/${bt}.json`,{cache:'force-cache'}); pack=r.ok?await r.json():null; storyPacks.set(bt,pack); }
+    const text=pack&&pack[sid];
+    box.textContent=text?text.trim():'Full text not available for this section.';
+  }catch(e){
+    box.textContent='Could not load the full story text here — this page can\'t reach outside files in this context.';
+  }
+}
+
 // ---------- tafsir (quran.com API, loaded on demand) ----------
-const TAFSIRS=[{id:169,name:'Ibn Kathir (English, abridged)',ar:false,slug:'en-tafisr-ibn-kathir'},{id:14,name:'ابن كثير (عربي)',ar:true,slug:'ar-tafsir-ibn-kathir'},{id:16,name:'الميسّر (عربي، مختصر)',ar:true,slug:'ar-tafsir-muyassar'},{id:91,name:'السعدي (عربي)',ar:true,slug:'ar-tafseer-al-saddi'},{id:15,name:'الطبري (عربي)',ar:true,slug:'ar-tafsir-al-tabari'},{id:90,name:'القرطبي (عربي)',ar:true,slug:'ar-tafseer-al-qurtubi'},{id:168,name:"Ma'arif al-Qur'an (English)",ar:false,slug:'en-tafsir-maarif-ul-quran'}];
+const TAFSIRS=[{id:169,name:'Ibn Kathir (English, abridged)',ar:false,slug:'en-tafisr-ibn-kathir',bundled:true},{id:16,name:'الميسّر (عربي، مختصر)',ar:true,slug:'ar-tafsir-muyassar',bundled:true},{id:14,name:'ابن كثير (عربي)',ar:true,slug:'ar-tafsir-ibn-kathir'},{id:91,name:'السعدي (عربي)',ar:true,slug:'ar-tafseer-al-saddi'},{id:15,name:'الطبري (عربي)',ar:true,slug:'ar-tafsir-al-tabari'},{id:90,name:'القرطبي (عربي)',ar:true,slug:'ar-tafseer-al-qurtubi'},{id:168,name:"Ma'arif al-Qur'an (English)",ar:false,slug:'en-tafsir-maarif-ul-quran'}];
+let apiBlocked=false;
+function tafLabel(t){ if(t.bundled) return t.name; return t.name+(apiBlocked?' — needs internet (blocked here)':' — online');}
+function tafOptions(){ return TAFSIRS.map(t=>`<option value="${t.id}" ${t.id===tafsirId?'selected':''} ${(!t.bundled&&apiBlocked)?'disabled':''}>${tafLabel(t)}</option>`).join('');}
 let tafsirId=169; try{const t=+localStorage.getItem('tafsirId'); if(TAFSIRS.some(x=>x.id===t)) tafsirId=t;}catch(_){}
 const tafCache=new Map(); const tafPacks=new Map();
 function sanitize(html){const d=document.createElement('div');d.innerHTML=html;d.querySelectorAll('script,style,iframe,object,embed,link,meta').forEach(x=>x.remove());d.querySelectorAll('*').forEach(el=>{[...el.attributes].forEach(a=>{if(/^on/i.test(a.name)||a.name==='style'||(a.name==='href'&&/^\s*javascript:/i.test(a.value))) el.removeAttribute(a.name);});});return d.innerHTML;}
@@ -320,7 +525,9 @@ async function toggleTafsir(btn){
     }
     box.innerHTML=(html?sanitize(html):'<p>No entry for this verse in this tafsir (it may be covered under a neighbouring verse).</p>')+`<div class="src">${T.name} · <a href="https://quran.com/${s}/${a}/tafsirs/${T.slug}" target="_blank" rel="noopener">quran.com ↗</a></div>`;
   }catch(e){
-    box.innerHTML=`<p>This tafsir isn't bundled with the page and the live quran.com API is blocked here.</p><div class="src"><a href="https://quran.com/${s}/${a}/tafsirs/${T.slug}" target="_blank" rel="noopener">Open ${T.name} for ${ref} on quran.com ↗</a></div>`;
+    apiBlocked=true;
+    const sel=document.getElementById('tafsel'); if(sel) sel.innerHTML=tafOptions();
+    box.innerHTML=`<p>${T.name} isn't stored in this page, and it can't be fetched here. The two tafsirs at the top of the picker (Ibn Kathir in English, al-Muyassar in Arabic) are built in and always work.</p><div class="src"><a href="https://quran.com/${s}/${a}/tafsirs/${T.slug}" target="_blank" rel="noopener">Open ${T.name} for ${ref} on quran.com ↗</a></div>`;
   }
 }
 
@@ -337,6 +544,105 @@ function renderTable(){
   el.querySelectorAll('th').forEach(t=>t.onclick=()=>{const k=t.dataset.k; if(sortKey===k) sortDir*=-1; else {sortKey=k;sortDir=(k==='count'||k==='tokens')?-1:1;} renderTable();});
   el.querySelectorAll('tbody tr').forEach(t=>t.onclick=()=>{setView('map');select(byId[t.dataset.id]);});
 }
+
+// ---------- daily practice: one concept a day, cinematic ----------
+const DP_KEY='quranmap.daily.v1';
+const CAT_ORDER=['belief','worship','character','speech','money','family','food','blood'];
+const PATH=(()=>{const out=[],seen=new Set();
+  const add=n=>{if(n&&!seen.has(n.id)){seen.add(n.id);out.push(n);}};
+  CAT_ORDER.forEach(c=>{
+    const inCat=nodes.filter(n=>n.cat===c);
+    inCat.filter(n=>n.pol==='virtue').sort((a,b)=>b.count-a.count).forEach(v=>{add(v); if(v.opposite) add(byId[v.opposite]);});
+    inCat.filter(n=>n.pol==='haram').sort((a,b)=>b.count-a.count).forEach(add);
+  });
+  nodes.forEach(add); return out;})();
+const refToGid={}; Object.values(V).forEach(v=>{refToGid[v.s+':'+v.a]=v.gid;});
+const arNum=x=>String(x).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);
+const dayStr=d=>{const z=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate());};
+const today=dayStr(new Date());
+let dpState=null;
+function dpLoad(){try{const r=JSON.parse(localStorage.getItem(DP_KEY)||'null'); if(r&&r.start&&Array.isArray(r.done)) return r;}catch(_){} return {start:today,done:[],dismissed:''};}
+function dpSave(){try{localStorage.setItem(DP_KEY,JSON.stringify(dpState));}catch(_){}}
+dpState=dpLoad(); if(!dpState.start){dpState.start=today;} dpSave();
+function unlockedMax(){const a=new Date(dpState.start+'T00:00:00'), b=new Date(today+'T00:00:00'); const d=Math.round((b-a)/86400000); return Math.max(0,Math.min(PATH.length-1,d));}
+function currentIdx(){const max=unlockedMax(); for(let i=0;i<=max;i++) if(!dpState.done.includes(PATH[i].id)) return i; return max;}
+function todayDone(){const i=currentIdx(); return dpState.done.includes(PATH[i].id);}
+function storiesFor(n){const seen=new Set(),out=[]; (SEERAH[n.id]||[]).forEach(s=>{const k=s.how.slice(0,80); if(!seen.has(k)&&!seen.has('t'+s.title)){seen.add(k);seen.add('t'+s.title);out.push(s);}}); return out.slice(0,3);}
+async function loadStoryText(section,batch){let pack=storyPacks.get(batch); if(pack===undefined){try{const r=await fetch(`seerah/packs/${batch}.json`,{cache:'force-cache'}); pack=r.ok?await r.json():null;}catch(_){pack=null;} storyPacks.set(batch,pack);} return pack&&pack[section];}
+
+const dp=document.getElementById('dp'), dpStage=document.getElementById('dpStage'), dpBars=document.getElementById('dpBars');
+let dpIdx=0, dpScene=0, dpScenes=[], dpMode='lesson';
+function reflectFor(n){
+  return n.pol==='virtue'
+    ? `Where, in the next 24 hours, can you practise <b>${esc(n.en.toLowerCase())}</b> once — deliberately, and without being seen?`
+    : `Where does <b>${esc(n.en.toLowerCase())}</b> find its way into your day — and what is one concrete thing you will do to shut that door today?`;
+}
+function buildScenes(n,idx){
+  const cat=CATS[n.cat]; const sc=[];
+  sc.push(()=>`<div class="dp-scene"><div class="kick">Day ${idx+1} · اليوم ${arNum(idx+1)} — ${cat.ar} · ${esc(cat.en)}</div>
+    <div class="word">${n.ar}</div><div class="gloss">${esc(n.en)}</div>
+    <div class="verdict"><span>${n.pol==='virtue'?'Commanded / praised · مأمور به':'Forbidden / condemned · منهيّ عنه'}</span></div>
+    <div class="facts"><div><b>${n.count}</b>verses</div><div><b>${n.tokens}</b>occurrences</div><div><b style="font-family:var(--ff-ar)">${n.root}</b>root</div></div>
+    ${n.note?`<div class="note">${esc(n.note)}</div>`:''}</div>`);
+  const gid=n.key&&refToGid[n.key]; const v=gid?V[gid]:(n.verses.length?V[n.verses[0]]:null);
+  if(v) sc.push(()=>`<div class="dp-scene"><div class="kick">The verse · الآية</div><div class="ayah">${v.ar}</div><div class="tr">${esc(v.en)}</div><div class="ref">${v.s}:${v.a} · ${esc(v.sname)}</div></div>`);
+  const st=storiesFor(n);
+  st.forEach((s,i)=>sc.push(()=>`<div class="dp-scene"><div class="kick">From the Seerah · من السيرة — story ${i+1} of ${st.length}</div><h2>${esc(s.title)}</h2><div class="pg">p.${s.page}</div>
+    <div class="story-body">${esc(s.how)}</div><button class="full-btn" data-section="${s.section}" data-batch="${s.batch}">Read the full story ↓</button></div>`));
+  if(!st.length) sc.push(()=>`<div class="dp-scene"><div class="kick">From the Seerah · من السيرة</div><h2>No episode in the book singles this one out.</h2><div class="story-body" style="text-align:center">The text of the Quran carries it alone today. Read the verses slowly — they are the lesson.</div></div>`);
+  sc.push(()=>{const done=dpState.done.includes(n.id); const opp=n.opposite&&byId[n.opposite];
+    return `<div class="dp-scene"><div class="kick">Carry it today · خذها معك</div><div class="word" style="font-size:clamp(40px,9vw,72px)">${n.ar}</div>
+    <div class="prompt">${reflectFor(n)}</div>
+    <div class="actions"><button class="complete" id="dpDone" ${done?'disabled':''}>${done?'✓ Day '+(idx+1)+' complete':'Mark day '+(idx+1)+' complete'}</button>
+    <button class="link" id="dpMap">Read all ${n.count} verses in the map</button>
+    ${opp?`<button class="link" id="dpOpp">Its opposite: ${opp.ar} · ${esc(opp.en)}</button>`:''}</div></div>`;});
+  return sc;
+}
+function dpRender(){
+  if(dpMode==='path'){ renderPath(); return; }
+  const n=PATH[dpIdx]; dp.classList.toggle('h',n.pol==='haram');
+  dpBars.innerHTML=dpScenes.map((_,i)=>`<i class="${i<=dpScene?'on':''}"></i>`).join('');
+  document.getElementById('dpDayLbl').textContent=`Day ${dpIdx+1} / ${PATH.length}`;
+  dpStage.innerHTML=dpScenes[dpScene](); dpStage.scrollTop=0;
+  document.getElementById('dpPrev').disabled=dpScene===0;
+  const last=dpScene===dpScenes.length-1; const nx=document.getElementById('dpNext'); nx.textContent=last?'The path ▦':'Next →'; nx.disabled=false;
+  const fb=dpStage.querySelector('.full-btn'); if(fb) fb.onclick=async()=>{const open=dpStage.querySelector('.full'); if(open){open.remove();fb.textContent='Read the full story ↓';return;}
+    const box=document.createElement('div'); box.className='full'; box.textContent='…'; fb.after(box); fb.textContent='Hide full story ↑';
+    const t=await loadStoryText(fb.dataset.section,fb.dataset.batch); box.textContent=t?t.trim():'The full text could not be loaded here.'; box.scrollIntoView({block:'nearest',behavior:'smooth'});};
+  const db=document.getElementById('dpDone'); if(db) db.onclick=()=>{if(!dpState.done.includes(n.id)) dpState.done.push(n.id); dpSave(); syncDailyBtn(); dpScenes=buildScenes(n,dpIdx); dpRender();};
+  const mb=document.getElementById('dpMap'); if(mb) mb.onclick=()=>{dpClose(); setView('map'); select(n);};
+  const ob=document.getElementById('dpOpp'); if(ob) ob.onclick=()=>{dpClose(); setView('map'); select(byId[n.opposite]);};
+}
+function renderPath(){
+  dp.classList.remove('h'); dpBars.innerHTML=''; const max=unlockedMax(), cur=currentIdx();
+  document.getElementById('dpDayLbl').textContent=`${dpState.done.length} / ${PATH.length} complete`;
+  dpStage.innerHTML=`<div class="dp-path"><h2>الطريق</h2><div class="sub">One concept a day — ${PATH.length} days from faith to the forbidden. A new day unlocks each morning.</div>
+    <div class="stat">started ${dpState.start} · ${dpState.done.length} learned · ${Math.max(0,max+1-dpState.done.length)} waiting</div>
+    <div class="dp-grid">${PATH.map((n,i)=>{const cls=[n.pol==='virtue'?'v':'hh']; if(dpState.done.includes(n.id)) cls.push('done'); if(i===cur) cls.push('today'); if(i>max) cls.push('locked');
+      return `<button class="${cls.join(' ')}" data-i="${i}" ${i>max?'disabled title="Unlocks on day '+(i+1)+'"':''}><span class="n">${i+1}</span><span class="w">${i>max?'·':n.ar}</span></button>`;}).join('')}</div></div>`;
+  dpStage.querySelectorAll('.dp-grid button:not([disabled])').forEach(b=>b.onclick=()=>dpOpen(+b.dataset.i));
+  document.getElementById('dpPrev').disabled=true; const nx=document.getElementById('dpNext'); nx.textContent='Today →'; nx.disabled=false;
+}
+function dpOpen(i){ dpMode='lesson'; dpIdx=(i===undefined?currentIdx():i); dpScene=0; dpScenes=buildScenes(PATH[dpIdx],dpIdx); dp.hidden=false; hideToast(); dpRender(); }
+function dpClose(){ dp.hidden=true; }
+function dpNext(){ if(dpMode==='path'){dpOpen();return;} if(dpScene<dpScenes.length-1){dpScene++;dpRender();} else {dpMode='path';dpRender();} }
+function dpPrev(){ if(dpMode==='lesson'&&dpScene>0){dpScene--;dpRender();} }
+document.getElementById('dpNext').onclick=dpNext; document.getElementById('dpPrev').onclick=dpPrev;
+document.getElementById('dpClose').onclick=dpClose;
+document.getElementById('dpPathBtn').onclick=()=>{dpMode='path';dp.hidden=false;dpRender();};
+document.addEventListener('keydown',e=>{ if(dp.hidden) return; if(e.key==='Escape') dpClose(); else if(e.key==='ArrowRight') dpNext(); else if(e.key==='ArrowLeft') dpPrev(); });
+let tx=null; dpStage.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+dpStage.addEventListener('touchend',e=>{if(tx===null) return; const dx=e.changedTouches[0].clientX-tx; tx=null; if(Math.abs(dx)>60){dx<0?dpNext():dpPrev();}},{passive:true});
+function syncDailyBtn(){const b=document.getElementById('dailyBtn'); b.classList.toggle('done',todayDone()); document.getElementById('dailyDay').textContent=' · Day '+(currentIdx()+1);}
+document.getElementById('dailyBtn').onclick=()=>dpOpen();
+syncDailyBtn();
+const toast=document.getElementById('dpToast');
+function hideToast(){toast.hidden=true;}
+function showToast(){ const i=currentIdx(), n=PATH[i]; toast.className='dp-toast'+(n.pol==='haram'?' h':'');
+  toast.innerHTML=`<div><div class="t-k">Today · Day ${i+1} of ${PATH.length}</div><div class="t-w">${n.ar}</div><div class="t-e">${esc(n.en)}</div></div><button class="go">Begin →</button><button class="x" aria-label="Later">×</button>`;
+  toast.hidden=false; toast.querySelector('.go').onclick=()=>dpOpen(); toast.querySelector('.x').onclick=()=>{dpState.dismissed=today;dpSave();hideToast();}; }
+if(!todayDone() && dpState.dismissed!==today) setTimeout(showToast,1400);
+
 renderTable();
 resize();
 })();
