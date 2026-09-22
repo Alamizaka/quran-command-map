@@ -32,18 +32,18 @@
   main{position:relative;overflow:hidden}
   canvas{display:block;width:100%;height:100%;cursor:grab}
   canvas.dragging{cursor:grabbing}
-  .legend{position:absolute;left:16px;bottom:14px;font-size:12px;color:var(--ink2);display:flex;flex-direction:column;gap:6px;pointer-events:none}
+  .legend{position:absolute;left:16px;bottom:92px;font-size:12px;color:var(--ink2);display:flex;flex-direction:column;gap:6px;pointer-events:none}
   .legend .row{display:flex;align-items:center;gap:8px}
   .legend .st{width:10px;height:10px;border-radius:50%;box-shadow:0 0 8px currentColor}
   .legend .sizes{display:flex;align-items:center;gap:6px}
   .legend .sz{border-radius:50%;background:var(--ink2);opacity:.7}
-  .hint{position:absolute;right:16px;bottom:14px;font-size:12px;color:var(--mute);pointer-events:none;text-align:right}
+  .hint{position:absolute;right:16px;bottom:92px;font-size:12px;color:var(--mute);pointer-events:none;text-align:right}
   .tip{position:absolute;pointer-events:none;background:var(--panel);border:1px solid var(--line2);padding:8px 12px;border-radius:6px;font-size:13px;transform:translate(-50%,-130%);white-space:nowrap;display:none;box-shadow:0 8px 30px rgba(0,0,0,.5)}
   .tip .ar{font-family:var(--ff-ar);font-size:19px;direction:rtl;display:block;color:var(--gold2)}
   .tip.h .ar{color:var(--ember2)}
   .tip .n{color:var(--ink2);font-family:var(--ff-mono);font-size:11px}
   /* panel */
-  aside{position:absolute;top:0;right:0;height:100%;width:min(520px,100%);background:var(--panel);border-left:1px solid var(--line);transform:translateX(102%);transition:transform .28s ease;display:flex;flex-direction:column;box-shadow:-20px 0 60px rgba(0,0,0,.5)}
+  aside{position:absolute;z-index:6;top:0;right:0;height:100%;width:min(520px,100%);background:var(--panel);border-left:1px solid var(--line);transform:translateX(102%);transition:transform .28s ease;display:flex;flex-direction:column;box-shadow:-20px 0 60px rgba(0,0,0,.5)}
   aside.open{transform:none}
   @media (prefers-reduced-motion:reduce){aside{transition:none}}
   .ph{padding:18px 22px 14px;border-bottom:1px solid var(--line);position:relative}
@@ -126,7 +126,7 @@
     .title .ar{font-size:22px}
     input[type=search]{width:130px}
     .legend,.hint{display:none}
-    aside{width:100%;height:92vh;top:auto;bottom:0;border-left:0;border-top:1px solid var(--line);border-radius:16px 16px 0 0;transform:translateY(102%)}
+    aside{position:fixed;z-index:30;width:100%;height:92vh;top:auto;bottom:0;border-left:0;border-top:1px solid var(--line);border-radius:16px 16px 0 0;transform:translateY(102%)}
     aside::before{content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);width:36px;height:4px;border-radius:99px;background:var(--line2)}
     .ph{padding:20px 16px 10px}
     .ph .close{top:10px;left:8px;font-size:20px}
@@ -147,6 +147,36 @@
     .v .en{font-size:13.5px}
   }
 
+  /* ---------- v2 quick wins ---------- */
+  .skymode{position:absolute;top:14px;left:16px;z-index:3;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+  .skymode .seg button{padding:5px 12px;font-size:12px}
+  .skymode .lit{font-family:var(--ff-mono);font-size:10.5px;color:var(--ink2);letter-spacing:.06em;background:rgba(10,14,28,.7);padding:3px 8px;border-radius:6px}
+  .timeline{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:3;width:min(560px,calc(100% - 32px));background:rgba(15,21,40,.86);border:1px solid var(--line2);border-radius:14px;padding:8px 12px 9px;backdrop-filter:blur(4px)}
+  .timeline .tl-row{display:flex;align-items:center;gap:10px}
+  .timeline .tl-play{width:30px;height:30px;border-radius:50%;border:1px solid var(--gold);color:var(--gold2);font-size:12px;flex-shrink:0}
+  .timeline input[type=range]{flex:1;accent-color:var(--gold);min-width:0}
+  .timeline .tl-all{font-size:11.5px;color:var(--ink2);border:1px solid var(--line);border-radius:999px;padding:3px 9px;flex-shrink:0}
+  .timeline .tl-lbl{font-family:var(--ff-mono);font-size:10.5px;color:var(--ink2);margin-top:5px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+  .timeline .tl-lbl b{color:var(--gold2);font-weight:500}
+  .timeline .tl-lbl .md b{color:#9FD3C7}
+  .timeline .tl-scale{position:relative;height:6px;margin:2px 40px 0 40px}
+  .timeline .tl-scale i{position:absolute;top:0;bottom:0;border-left:1px dashed var(--mute)}
+  .timeline .tl-scale span{position:absolute;top:-1px;font-size:9px;font-family:var(--ff-mono);color:var(--mute);transform:translateX(4px)}
+  .v .ref .place{font-family:var(--ff-mono);font-size:10px;letter-spacing:.06em;border:1px solid var(--line);border-radius:999px;padding:0 7px;margin-inline-start:8px;color:var(--ink2)}
+  .v .ref .place.md{color:#9FD3C7;border-color:rgba(159,211,199,.35)}
+  .v .btns{display:flex;gap:8px;flex-wrap:wrap}
+  .v .ctx{margin-top:10px;padding:10px 14px;border-inline-start:2px solid var(--line2);background:rgba(255,255,255,.025)}
+  .v .ctx .ctx-h{font-family:var(--ff-mono);font-size:10.5px;color:var(--mute);margin-bottom:6px;line-height:1.5}
+  .v .ctx .ca{padding:7px 0;border-bottom:1px dashed var(--line);opacity:.72}
+  .v .ctx .ca:last-child{border-bottom:0}
+  .v .ctx .ca.me{opacity:1}
+  .v .ctx .ca.me .car{color:var(--gold2)}
+  .h .v .ctx .ca.me .car{color:var(--ember2)}
+  .v .ctx .car{font-family:var(--ff-ar);font-size:18px;line-height:1.8;direction:rtl;text-align:right}
+  .v .ctx .cen{font-size:13px;color:var(--ink2);line-height:1.5}
+  .v .ctx .cn{font-family:var(--ff-mono);font-size:10px;color:var(--mute)}
+  .ai{font-family:var(--ff-mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:#B9A7E8;border:1px solid rgba(185,167,232,.4);border-radius:4px;padding:0 5px;margin-inline-start:6px;white-space:nowrap;vertical-align:1px}
+  @media (max-width:720px){.skymode{top:10px;left:10px}.timeline{bottom:10px;padding:7px 10px}.timeline .tl-scale{display:none}}
   /* ---------- daily practice ---------- */
   [hidden]{display:none!important}
   .daily-btn{display:flex;align-items:center;gap:8px;padding:6px 14px 6px 10px;border:1px solid var(--gold);border-radius:999px;color:var(--gold2);font-size:13px;background:linear-gradient(90deg,rgba(242,197,107,.12),transparent)}
@@ -285,10 +315,19 @@
     <div class="legend">
       <div class="row"><span class="st" style="color:var(--gold);background:var(--gold)"></span>commanded / praised</div>
       <div class="row"><span class="st" style="color:var(--ember);background:var(--ember)"></span>forbidden / condemned</div>
-      <div class="row sizes"><span class="sz" style="width:5px;height:5px"></span><span class="sz" style="width:10px;height:10px"></span><span class="sz" style="width:18px;height:18px"></span>size = number of verses</div>
+      <div class="row sizes"><span class="sz" style="width:5px;height:5px"></span><span class="sz" style="width:10px;height:10px"></span><span class="sz" style="width:18px;height:18px"></span>size = Qur'anic occurrence count (verses), not importance</div>
+      <div class="row" id="lgMe" style="display:none;color:#C9D2F0">bright = completed · half = opened · dim = not yet studied</div>
       <div class="row" style="color:var(--mute)">dotted line = its opposite</div>
     </div>
     <div class="hint">click a star for every verse · drag to move · scroll to zoom</div>
+    <div class="skymode"><div class="seg" role="group" aria-label="Sky"><button id="skyQ" aria-pressed="true">Qur'an sky</button><button id="skyMe" aria-pressed="false">✦ My sky</button></div><span class="lit" id="skyLit" hidden></span></div>
+    <div class="timeline" id="timeline">
+      <div class="tl-row"><button class="tl-play" id="tlPlay" aria-label="Play revelation order">▶</button>
+        <input type="range" id="tlRange" min="1" max="114" value="114" aria-label="Revelation order: surahs revealed so far">
+        <button class="tl-all" id="tlAll">All</button></div>
+      <div class="tl-scale"><i style="left:75.7%"></i><span style="left:75.7%">Hijrah</span></div>
+      <div class="tl-lbl" id="tlLbl"></div>
+    </div>
     <aside id="panel" aria-live="polite">
       <div class="ph" id="ph"></div>
       <div id="seerah"></div>
@@ -344,7 +383,16 @@ function setView(v){view=v;document.getElementById('table').classList.toggle('on
 // ---------- layout ----------
 const canvas=document.getElementById('c'), ctx=canvas.getContext('2d');
 let W=0,H=0,dpr=1;
-const r = n => 2.5 + 2.1*Math.sqrt(n.count);
+const SUR=D.surahs||{};
+let revN=114, skyMode='quran';
+nodes.forEach(n=>{n.revs=n.verses.map(g=>{const v=V[g]; return (SUR[v.s]&&SUR[v.s].rev)||0;}); n.shown=n.count;});
+function applyRev(){ nodes.forEach(n=>{n.shown=revN>=114?n.count:n.revs.filter(x=>x<=revN).length;}); }
+const learn={done:new Set(),viewed:new Set()};
+try{const d=JSON.parse(localStorage.getItem('quranmap.daily.v1')||'null'); if(d&&d.done) d.done.forEach(x=>learn.done.add(x));}catch(_){}
+try{JSON.parse(localStorage.getItem('quranmap.viewed.v1')||'[]').forEach(x=>learn.viewed.add(x));}catch(_){}
+function markViewed(id){ if(learn.viewed.has(id)) return; learn.viewed.add(id); try{localStorage.setItem('quranmap.viewed.v1',JSON.stringify([...learn.viewed]));}catch(_){} syncSky(); }
+const learnLevel=n=>learn.done.has(n.id)?1:learn.viewed.has(n.id)?0.5:0;
+const r = n => n.shown? 2.5 + 2.1*Math.sqrt(n.shown) : 1.4;
 const maxCount=Math.max(...nodes.map(n=>n.count));
 function centers(){
   // clusters on a ring, belief in the middle
@@ -408,14 +456,15 @@ function draw(){
   sorted.forEach(n=>{
     const vis=visible(n); const rr=r(n); const col=n.pol==='virtue'?GOLD:EMBER;
     const active = (selected&&selected.id===n.id)||(hovered&&hovered.id===n.id);
-    ctx.globalAlpha=vis?1:0.12;
+    let a=vis?1:0.12; if(!n.shown) a*=0.14; if(skyMode==='me'){const L=learnLevel(n); a*=L===1?1:L?0.55:0.13;}
+    ctx.globalAlpha=a;
     const g=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,rr*1.7);
     g.addColorStop(0,col); g.addColorStop(0.5,col+'66'); g.addColorStop(1,col+'00');
     ctx.fillStyle=g; ctx.beginPath(); ctx.arc(n.x,n.y,rr*1.7,0,7); ctx.fill();
     ctx.fillStyle=n.pol==='virtue'?'#FFF4D6':'#FFD9CF'; ctx.beginPath(); ctx.arc(n.x,n.y,rr*0.55,0,7); ctx.fill();
     if(active){ctx.strokeStyle='#fff';ctx.lineWidth=1.5/T.k;ctx.beginPath();ctx.arc(n.x,n.y,rr+5,0,7);ctx.stroke();}
     // label
-    const showLabel = vis && (T.k*rr>11 || active || T.k>1.8 || query);
+    const showLabel = vis && n.shown>0 && (T.k*rr>11 || active || T.k>1.8 || query) && (skyMode!=='me'||learnLevel(n)>0||active);
     if(showLabel){
       ctx.fillStyle=n.pol==='virtue'?'#FFE7B0':'#FF9C8A';
       ctx.font=(active?'700 ':'400 ')+Math.max(12,Math.min(19,8+rr*0.45))+'px "Amiri", serif';
@@ -440,7 +489,7 @@ canvas.addEventListener('pointermove',e=>{
   if(dragging){ dragging.fx=(px-T.x)/T.k; dragging.fy=(py-T.y)/T.k; sim.alpha(0.3).restart(); return; }
   const n=pick(px,py); if(n!==hovered){hovered=n;draw();}
   if(n){tip.style.display='block';tip.style.left=px+'px';tip.style.top=py+'px';tip.className='tip'+(n.pol==='haram'?' h':'');
-    tip.innerHTML=`<span class="ar">${n.ar}</span>${n.en} <span class="n">· ${n.count} verses</span>`;canvas.style.cursor='pointer';}
+    tip.innerHTML=`<span class="ar">${n.ar}</span>${n.en} <span class="n">· ${revN<114?n.shown+' of '+n.count:n.count} verses</span>`;canvas.style.cursor='pointer';}
   else{tip.style.display='none';canvas.style.cursor='grab';}
 });
 canvas.addEventListener('pointerdown',e=>{const rect=canvas.getBoundingClientRect();const n=pick(e.clientX-rect.left,e.clientY-rect.top);if(n){dragging=n;n._t=Date.now();n.fx=n.x;n.fy=n.y;canvas.setPointerCapture(e.pointerId);e.stopImmediatePropagation();}},true);
@@ -451,12 +500,12 @@ canvas.addEventListener('pointerleave',()=>{hovered=null;tip.style.display='none
 const panel=document.getElementById('panel'), ph=document.getElementById('ph'), vs=document.getElementById('verses');
 function esc(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
 function select(n){
-  selected=n; panel.classList.add('open'); panel.className='open '+(n.pol==='haram'?'h':'');
+  selected=n; markViewed(n.id); panel.classList.add('open'); panel.className='open '+(n.pol==='haram'?'h':'');
   ph.className='ph'+(n.pol==='haram'?' h':'');
   const opp=n.opposite&&byId[n.opposite];
   ph.innerHTML=`<button class="close" aria-label="Close">×</button>
     <div class="ar">${n.ar}</div><div class="en">${n.en}</div>
-    <div class="meta"><span>root <b>${n.root}</b></span><span>verses <b>${n.count}</b></span><span>occurrences <b>${n.tokens}</b></span><span>${n.pol==='virtue'?'commanded / praised':'forbidden / condemned'}</span></div>
+    <div class="meta"><span>root <b>${n.root}</b></span><span>occurs in <b>${n.count}</b> verses</span><span>occurrences <b>${n.tokens}</b></span><span>${n.pol==='virtue'?'commanded / praised':'forbidden / condemned'}</span></div>
     ${n.lemmas.length?`<div class="lem">${n.lemmas.map(l=>'<span>'+l+'</span>').join('')}</div>`:''}
     ${n.note?`<div class="note">${n.note}</div>`:''}
     ${opp?`<div class="opp">opposite: <button class="${opp.pol==='haram'?'h':''}" data-id="${opp.id}">${opp.ar}</button></div>`:''}
@@ -467,8 +516,10 @@ function select(n){
   renderSeerah(n);
   const words=n.lemmas.filter(l=>l.length>=3);
   vs.innerHTML=n.verses.map(g=>{const v=V[g]; const ref=v.s+':'+v.a; const key=ref===n.key;
-    return `<div class="v${key?' key':''}"><div class="ref"><span>${ref} · ${v.sname}</span>${key?'<span class="k">key verse</span>':''}</div><div class="ar">${v.ar}</div><div class="en">${esc(v.en)}</div><button class="tafbtn" data-ref="${ref}">tafsir · تفسير</button></div>`;}).join('');
-  vs.querySelectorAll('.tafbtn').forEach(b=>b.onclick=()=>toggleTafsir(b));
+    const S=SUR[v.s]||{}; const md=S.type==='medinan';
+    return `<div class="v${key?' key':''}"><div class="ref"><span>${ref} · ${v.sname}<span class="place${md?' md':''}" title="Surah revealed ${S.rev}th of 114 (traditional chronology)">${md?'Madani':'Makki'}</span></span>${key?'<span class="k">key verse</span>':''}</div><div class="ar">${v.ar}</div><div class="en">${esc(v.en)}</div><div class="btns"><button class="tafbtn" data-ref="${ref}">tafsir · تفسير</button><button class="tafbtn ctxbtn" data-ref="${ref}">read in context · السياق</button></div></div>`;}).join('');
+  vs.querySelectorAll('.tafbtn:not(.ctxbtn)').forEach(b=>b.onclick=()=>toggleTafsir(b));
+  vs.querySelectorAll('.ctxbtn').forEach(b=>b.onclick=()=>toggleContext(b));
   vs.scrollTop=0; const k=vs.querySelector('.key'); if(k) k.scrollIntoView({block:'start'});
   draw();
 }
@@ -479,7 +530,7 @@ const storyPacks=new Map();
 const SEERAH_STEP=4;
 function storyItem(s,i,n){
   const strn=[1,2,3].map(k=>`<i class="${k<=s.strength?'on':''}"></i>`).join('');
-  return `<div class="story" data-i="${i}"><div class="st-h"><span class="st-title">${esc(s.title)}</span><span class="st-pg">p.${s.page}</span></div>
+  return `<div class="story" data-i="${i}"><div class="st-h"><span class="st-title">${esc(s.title)}<span class="ai" title="Summary written by AI from the book's text. Open the full story for the source passage.">AI summary</span></span><span class="st-pg">p.${s.page}</span></div>
     <div class="st-how"><span class="strn">${strn}</span>${esc(s.how)}</div>
     <button class="storybtn" data-section="${s.section}" data-batch="${s.batch}">read full story ↗</button></div>`;
 }
@@ -502,7 +553,7 @@ function renderSeerah(n){
     const shown=+box.dataset.shown;
     body.innerHTML=list.slice(0,shown).map((s,i)=>storyItem(s,i,n)).join('')
       + (shown<list.length?`<button class="more">show ${Math.min(SEERAH_STEP,list.length-shown)} more</button>`:'')
-      + `<div class="src">Seerah of Prophet Muhammad ﷺ, narrated from Ibn Hisham, Ibn Kathir and the hadith collections. Episode summaries paraphrased from a lecture-series transcription of that material.</div>`;
+      + `<div class="src">Seerah of Prophet Muhammad ﷺ, narrated from Ibn Hisham, Ibn Kathir and the hadith collections. Episode summaries and their links to this concept are AI-generated from a lecture-series transcription of that material — open “read full story” for the source passage.</div>`;
     const mb=body.querySelector('.more'); if(mb) mb.onclick=(e)=>{e.stopPropagation();box.dataset.shown=Math.min(list.length,shown+SEERAH_STEP);drawBody();};
     body.querySelectorAll('.storybtn').forEach(b=>b.onclick=(e)=>{e.stopPropagation();toggleStory(b);});
   };
@@ -517,6 +568,46 @@ function toggleStory(btn){
   const card=btn.closest('.story'); const list=SEERAH[selected&&selected.id]||[]; const s=list[+card.dataset.i];
   openReader({section:btn.dataset.section,batch:btn.dataset.batch,title:s?s.title:'',page:s?s.page:'',how:s?s.how:''});
 }
+
+// ---------- read in context: ±3 verses + surah overview ----------
+let QURAN=null, quranLoading=null;
+function loadQuran(){ if(QURAN) return Promise.resolve(QURAN); if(!quranLoading) quranLoading=fetch('quran/all.json',{cache:'force-cache'}).then(r=>r.ok?r.json():null).catch(()=>null).then(j=>{QURAN=j; if(!j) quranLoading=null; return j;}); return quranLoading; }
+async function toggleContext(btn){
+  const row=btn.closest('.v'); const open=row.querySelector('.ctx');
+  if(open){open.remove();btn.textContent='read in context · السياق';return;}
+  const [s,a]=btn.dataset.ref.split(':').map(Number); const S=SUR[s]||{};
+  const box=document.createElement('div'); box.className='ctx'; box.textContent='…'; row.appendChild(box); btn.textContent='hide context';
+  const Q=await loadQuran(); const vv=Q&&Q[s];
+  if(!vv){ box.textContent='The surah text could not be loaded here.'; return; }
+  const lo=Math.max(1,a-3), hi=Math.min(vv.length,a+3); let h='';
+  for(let i=lo;i<=hi;i++){ const [ar,en]=vv[i-1]; h+=`<div class="ca${i===a?' me':''}"><div class="cn">${s}:${i}${i===a?' · this verse':''}</div><div class="car">${ar}</div><div class="cen">${esc(en)}</div></div>`; }
+  box.innerHTML=`<div class="ctx-h">سورة ${S.ar||''} · ${esc(S.tr||'')} (${esc(S.en||'')}) · ${S.type==='medinan'?'Madani':'Makki'} · ${S.n} verses · revealed ${S.rev} of 114 in the traditional chronology<br>showing verses ${lo}–${hi}</div>${h}`;
+}
+
+// ---------- revelation timeline ----------
+const tlRange=document.getElementById('tlRange'), tlLbl=document.getElementById('tlLbl'), tlPlay=document.getElementById('tlPlay');
+const REV2S={}; Object.keys(SUR).forEach(k=>{REV2S[SUR[k].rev]=+k;});
+function setRev(x){ revN=Math.max(1,Math.min(114,x)); tlRange.value=revN; applyRev(); sim.force('collide').radius(d=>r(d)+10); kick(); syncTimeline(); if(view==='table') renderTable(); }
+function syncTimeline(){
+  if(revN>=114){ tlLbl.innerHTML=`<span>Revelation order · drag or ▶ to watch the concepts appear, surah by surah</span><span>all 114 surahs</span>`; return; }
+  const s=REV2S[revN], S=SUR[s]||{}; const md=revN>=87; const lit=nodes.filter(n=>n.shown).length;
+  tlLbl.innerHTML=`<span class="${md?'md':''}">${md?'<b>Madinan period</b>':'<b>Makkan period</b>'} · ${revN}/114 · ${esc(S.tr||'')} (${s})</span><span>${lit} of ${nodes.length} concepts have appeared</span>`;
+}
+let tlTimer=null;
+function stopPlay(){ if(tlTimer){clearInterval(tlTimer);tlTimer=null;} tlPlay.textContent='▶'; }
+tlPlay.onclick=()=>{ if(tlTimer){stopPlay();return;} if(revN>=114) setRev(1); tlPlay.textContent='❚❚'; tlTimer=setInterval(()=>{ if(revN>=114){stopPlay();return;} setRev(revN+1); },320); };
+tlRange.oninput=()=>{stopPlay(); setRev(+tlRange.value);};
+document.getElementById('tlAll').onclick=()=>{stopPlay(); setRev(114);};
+
+// ---------- sky mode: Qur'an vs my learning ----------
+function syncSky(){
+  const lit=document.getElementById('skyLit'); document.getElementById('skyQ').setAttribute('aria-pressed',skyMode==='quran'); document.getElementById('skyMe').setAttribute('aria-pressed',skyMode==='me');
+  document.getElementById('lgMe').style.display=skyMode==='me'?'':'none';
+  if(skyMode==='me'){ lit.hidden=false; lit.textContent=`✦ ${learn.done.size} completed · ${[...learn.viewed].filter(x=>!learn.done.has(x)).length} opened · of ${nodes.length}`; } else lit.hidden=true;
+  if(C) draw();
+}
+document.getElementById('skyQ').onclick=()=>{skyMode='quran';syncSky();};
+document.getElementById('skyMe').onclick=()=>{skyMode='me';syncSky();};
 
 // ---------- tafsir (quran.com API, loaded on demand) ----------
 const TAFSIRS=[{id:169,name:'Ibn Kathir (English, abridged)',ar:false,slug:'en-tafisr-ibn-kathir',bundled:true},{id:16,name:'الميسّر (عربي، مختصر)',ar:true,slug:'ar-tafsir-muyassar',bundled:true},{id:14,name:'ابن كثير (عربي)',ar:true,slug:'ar-tafsir-ibn-kathir'},{id:91,name:'السعدي (عربي)',ar:true,slug:'ar-tafseer-al-saddi'},{id:15,name:'الطبري (عربي)',ar:true,slug:'ar-tafsir-al-tabari'},{id:90,name:'القرطبي (عربي)',ar:true,slug:'ar-tafseer-al-qurtubi'},{id:168,name:"Ma'arif al-Qur'an (English)",ar:false,slug:'en-tafsir-maarif-ul-quran'}];
@@ -556,7 +647,7 @@ function renderTable(){
   const el=document.getElementById('table');
   const rows=nodes.filter(visible).sort((a,b)=>{const va=a[sortKey],vb=b[sortKey];return (va>vb?1:va<vb?-1:0)*sortDir;});
   const th=(k,l)=>`<th data-k="${k}" class="${sortKey===k?'on':''}">${l}${sortKey===k?(sortDir<0?' ↓':' ↑'):''}</th>`;
-  el.innerHTML=`<p class="about"><b>${rows.length} concepts</b> · counted by Arabic lemma over the Uthmani text (Quranic Arabic Corpus morphology), Saheeh International alongside. <b>Verses</b> = distinct verses containing the word; <b>occurrences</b> = every time it appears. Where a word is ambiguous the count is left as is and the note says so — click a row to read every verse yourself.</p>
+  el.innerHTML=`<p class="about"><b>${rows.length} concepts</b> · counted by Arabic lemma over the Uthmani text (Quranic Arabic Corpus morphology), Saheeh International alongside. <b>Verses</b> = distinct verses containing the word; <b>occurrences</b> = every time it appears. These measure how often a word occurs in the Qur'an — not how important the teaching is, and an occurrence can be a story or a description as easily as a command. Where a word is ambiguous the count is left as is and the note says so — click a row to read every verse yourself.</p>
   <div style="overflow-x:auto"><table><thead><tr>${th('ar','Arabic')}${th('en','Meaning')}${th('root','Root')}${th('cat','Cluster')}${th('count','Verses')}${th('tokens','Occurrences')}</tr></thead><tbody>
   ${rows.map(n=>`<tr data-id="${n.id}"><td class="ar">${n.ar}</td><td><span class="pol" style="background:${n.pol==='virtue'?GOLD:EMBER}"></span>${n.en}${n.note?'<div style="color:var(--mute);font-size:12px;font-style:italic">'+n.note+'</div>':''}</td><td style="font-family:var(--ff-ar);font-size:17px;direction:rtl">${n.root}</td><td style="font-family:var(--ff-ar);font-size:16px;direction:rtl">${CATS[n.cat].ar}</td><td class="n">${n.count}<div class="bar" style="width:${Math.max(4,100*n.count/maxCount)}%;background:${n.pol==='virtue'?GOLD:EMBER}"></div></td><td class="n">${n.tokens}</td></tr>`).join('')}
   </tbody></table></div>`;
@@ -587,7 +678,7 @@ function firstUndone(){for(let i=0;i<PATH.length;i++) if(!dpState.done.includes(
 function unlockedMax(){const a=new Date(dpState.start+'T00:00:00'), b=new Date(today+'T00:00:00'); const d=Math.round((b-a)/86400000); return Math.max(0,Math.min(PATH.length-1,Math.max(d,firstUndone())));}
 function currentIdx(){return firstUndone();}
 function todayDone(){return Object.values(dpState.log||{}).includes(today);}
-function markDone(id){if(!dpState.done.includes(id)) dpState.done.push(id); dpState.log=dpState.log||{}; if(!dpState.log[id]) dpState.log[id]=today; dpSave();}
+function markDone(id){learn.done.add(id); if(!dpState.done.includes(id)) dpState.done.push(id); dpState.log=dpState.log||{}; if(!dpState.log[id]) dpState.log[id]=today; dpSave();}
 function storiesFor(n){const seen=new Set(),out=[]; (SEERAH[n.id]||[]).forEach(s=>{const k=s.how.slice(0,80); if(!seen.has(k)&&!seen.has('t'+s.title)){seen.add(k);seen.add('t'+s.title);out.push(s);}}); return out.slice(0,3);}
 const reader=document.getElementById('reader'), rBody=document.getElementById('rBody'), rInner=document.getElementById('rInner'), rProg=document.getElementById('rProg'), rTop=document.getElementById('rTop');
 function reflow(t){
@@ -603,7 +694,7 @@ async function openReader(o){
     const key=norm(o.title).trim().split(' ').slice(0,4).join(' '); const lines=t.split('\n'); const hit=lines.findIndex((l,i)=>i>0&&norm(l).trim().startsWith(key)&&l.trim().length<o.title.length+25);
     if(hit>0&&hit<lines.length*0.6) t=lines.slice(hit+1).join('\n');}
   const paras=t?reflow(t):[];
-  rInner.innerHTML=(o.how?`<div class="r-sum">${esc(o.how)}</div>`:'')+
+  rInner.innerHTML=(o.how?`<div class="r-sum"><span class="ai" style="margin:0 6px 0 0">AI summary</span>${esc(o.how)}</div>`:'')+
     (paras.length?paras.map(p=>`<p>${esc(p)}</p>`).join(''):'<p>The full text could not be loaded here.</p>')+
     `<div class="r-end"><button id="rDone">Done reading — back</button></div>`;
   document.getElementById('rDone').onclick=closeReader;
@@ -627,16 +718,16 @@ function buildScenes(n,idx){
   sc.push(()=>`<div class="dp-scene"><div class="kick">Day ${idx+1} · اليوم ${arNum(idx+1)} — ${cat.ar} · ${esc(cat.en)}</div>
     <div class="word">${n.ar}</div><div class="gloss">${esc(n.en)}</div>
     <div class="verdict"><span>${n.pol==='virtue'?'Commanded / praised · مأمور به':'Forbidden / condemned · منهيّ عنه'}</span></div>
-    <div class="facts"><div><b>${n.count}</b>verses</div><div><b>${n.tokens}</b>occurrences</div><div><b style="font-family:var(--ff-ar)">${n.root}</b>root</div></div>
+    <div class="facts"><div><b>${n.count}</b>verses it occurs in</div><div><b>${n.tokens}</b>occurrences</div><div><b style="font-family:var(--ff-ar)">${n.root}</b>root</div></div>
     ${n.note?`<div class="note">${esc(n.note)}</div>`:''}</div>`);
   const gid=n.key&&refToGid[n.key]; const v=gid?V[gid]:(n.verses.length?V[n.verses[0]]:null);
   if(v) sc.push(()=>`<div class="dp-scene"><div class="kick">The verse · الآية</div><div class="ayah">${v.ar}</div><div class="tr">${esc(v.en)}</div><div class="ref">${v.s}:${v.a} · ${esc(v.sname)}</div></div>`);
   const st=storiesFor(n);
-  st.forEach((s,i)=>sc.push(()=>`<div class="dp-scene"><div class="kick">From the Seerah · من السيرة — story ${i+1} of ${st.length}</div><h2>${esc(s.title)}</h2><div class="pg">p.${s.page}</div>
+  st.forEach((s,i)=>sc.push(()=>`<div class="dp-scene"><div class="kick">From the Seerah · من السيرة — story ${i+1} of ${st.length} <span class="ai">AI summary</span></div><h2>${esc(s.title)}</h2><div class="pg">p.${s.page}</div>
     <div class="story-body">${esc(s.how)}</div><button class="full-btn" data-section="${s.section}" data-batch="${s.batch}" data-title="${esc(s.title).replace(/"/g,'&quot;')}" data-page="${s.page}">Read the full story →</button></div>`));
   if(!st.length) sc.push(()=>`<div class="dp-scene"><div class="kick">From the Seerah · من السيرة</div><h2>No episode in the book singles this one out.</h2><div class="story-body" style="text-align:center">The text of the Quran carries it alone today. Read the verses slowly — they are the lesson.</div></div>`);
   sc.push(()=>{const done=dpState.done.includes(n.id); const opp=n.opposite&&byId[n.opposite];
-    return `<div class="dp-scene"><div class="kick">Carry it today · خذها معك</div><div class="word" style="font-size:clamp(40px,9vw,72px)">${n.ar}</div>
+    return `<div class="dp-scene"><div class="kick">Carry it today · خذها معك — a reflection prompt, not a ruling</div><div class="word" style="font-size:clamp(40px,9vw,72px)">${n.ar}</div>
     <div class="prompt">${reflectFor(n)}</div>
     <div class="actions">${done?`<div class="done-note">✓ Day ${idx+1} complete</div>`:`<button class="complete" id="dpDone">Mark day ${idx+1} complete</button>`}
     ${done&&idx<PATH.length-1?`<button class="continue" id="dpCont">Continue to day ${idx+2} · ${PATH[idx+1].ar} →</button>`:''}
@@ -688,6 +779,7 @@ function showToast(){ const i=currentIdx(), n=PATH[i]; toast.className='dp-toast
   toast.hidden=false; toast.querySelector('.go').onclick=()=>dpOpen(); toast.querySelector('.x').onclick=()=>{dpState.dismissed=today;dpSave();hideToast();}; }
 if(!todayDone() && dpState.dismissed!==today) setTimeout(showToast,1400);
 
+syncTimeline(); syncSky();
 renderTable();
 resize();
 })();

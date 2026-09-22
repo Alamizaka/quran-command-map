@@ -42,8 +42,14 @@ for con in C:
     out_nodes.append(node)
 
 out_verses = {str(g): verses[g] for g in sorted(used)}
-data = dict(categories=CATEGORIES, nodes=out_nodes, verses=out_verses,
-            meta=dict(text='Uthmani text (quranenc.com via quran-json 3.1.2)', translation='Saheeh International (tanzil.net)', morphology='Quranic Arabic Corpus lemmas (via quran-search-engine)', total_verses=6236))
+seerah = json.load(open('/home/user/quran/seerah/seerah_blob.json'))
+rev = json.load(open('/home/user/quran/seerah/rev_order.json'))  # Egyptian standard (Tanzil/quran.com) chronology
+surahs = {str(x['id']): dict(ar=x['name'], tr=x['transliteration'], en=x['translation'], type=x['type'], n=x['total_verses'], rev=rev[str(x['id'])]) for x in q}
+import os; os.makedirs('/home/user/quran/quran', exist_ok=True)
+json.dump({str(x['id']): [[v['text'], v['translation']] for v in x['verses']] for x in q}, open('/home/user/quran/quran/all.json','w'), ensure_ascii=False, separators=(',',':'))
+data = dict(categories=CATEGORIES, nodes=out_nodes, verses=out_verses, seerah=seerah, surahs=surahs,
+            meta=dict(text='Uthmani text (quranenc.com via quran-json 3.1.2)', translation='Saheeh International (tanzil.net)', morphology='Quranic Arabic Corpus lemmas (via quran-search-engine)', total_verses=6236,
+                      seerah_source="Seerah of Prophet Muhammad ﷺ — narrated primarily from Ibn Hisham, Ibn Kathir and the hadith collections; episode summaries below are paraphrased from a lecture-series transcription of that material."))
 json.dump(data, open('/home/user/quran/data.json','w'), ensure_ascii=False)
 print('nodes', len(out_nodes), 'verses used', len(out_verses))
 for n in sorted(out_nodes, key=lambda x: -x['count']):
